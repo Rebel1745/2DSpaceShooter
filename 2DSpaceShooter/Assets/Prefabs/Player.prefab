@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 8137392543813864353}
   - component: {fileID: 7175152995264106579}
   - component: {fileID: 7227599404987457461}
-  m_Layer: 0
+  - component: {fileID: 2174730949675700249}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,10 +175,40 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _axisBoundsX: {x: 0.5, y: 0.5}
   _axisBoundsY: {x: 0.65, y: 3}
-  _moveSpeed: 5
+  _moveSpeed: {x: 8, y: 5}
   _missileSpawnPoint: {fileID: 3397353486619309948}
   _missleHolder: {fileID: 0}
   _projectile: {fileID: 11400000, guid: 52181e117f1821e448f485b56404682e, type: 2}
+  _projectileLayer:
+    serializedVersion: 2
+    m_Bits: 128
+--- !u!50 &2174730949675700249
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 877247000386328643}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &3138894580098908814
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,7 +236,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 714902048256874191}
@@ -306,7 +337,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2398617413665001762, guid: 9ccc4ea98ade10e4d8d21c031c349fd8, type: 3}
       propertyPath: m_Name
-      value: Particles
+      value: EngineParticles
       objectReference: {fileID: 0}
     - target: {fileID: 4355450428810227163, guid: 9ccc4ea98ade10e4d8d21c031c349fd8, type: 3}
       propertyPath: m_LocalPosition.x
@@ -314,7 +345,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4355450428810227163, guid: 9ccc4ea98ade10e4d8d21c031c349fd8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.33
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4355450428810227163, guid: 9ccc4ea98ade10e4d8d21c031c349fd8, type: 3}
       propertyPath: m_LocalPosition.z

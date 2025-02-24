@@ -13,6 +13,7 @@ public class PlayerVerticalInputController : MonoBehaviour
     [SerializeField] Transform _missileSpawnPoint;
     [SerializeField] Transform _missleHolder;
     [SerializeField] ProjectileSO _projectile;
+    [SerializeField] LayerMask _projectileLayer;
     float _currentProjectileCooldown;
     bool _fireMissile = false;
 
@@ -44,8 +45,7 @@ public class PlayerVerticalInputController : MonoBehaviour
     {
         _currentProjectileCooldown = _projectile.Cooldown;
         GameObject newMissile = Instantiate(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, _missleHolder);
-        newMissile.GetComponent<Missile>().SetMissileSpeed(_projectile.ProjectileSpeed);
-        newMissile.GetComponent<DestroyAfterTime>().SetDestroyAfterTime(_projectile.TimeUntilProjectileDestroyed);
+        newMissile.GetComponent<Missile>().SetupMissile(_projectile);
     }
 
     private void Update()
