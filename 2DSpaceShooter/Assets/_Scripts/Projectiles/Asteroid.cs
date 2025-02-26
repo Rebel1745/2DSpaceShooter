@@ -2,20 +2,18 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour, IDamageable, IDestroyable
 {
-    EnemySO _enemyData;
+    [SerializeField] EnemySO _enemyData;
 
-    void OnTriggerEnter2D(Collider2D collision)
+    public void DestroyObject()
     {
-        Debug.Log("Collision");
-    }
+        if (_enemyData.DestructionParticles)
+            Instantiate(_enemyData.DestructionParticles, transform.position, Quaternion.identity);
 
-    public void Destroy()
-    {
         Destroy(gameObject);
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
-        Destroy();
+        DestroyObject();
     }
 }

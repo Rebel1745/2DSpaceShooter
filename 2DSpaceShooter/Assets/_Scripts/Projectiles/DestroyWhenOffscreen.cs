@@ -30,7 +30,7 @@ public class DestroyWhenOffscreen : MonoBehaviour
         }
 
         if (_hasComeOnscreenYet && CheckIfOffscreenByAmount())
-            Destroy(gameObject);
+            GetComponent<IDestroyable>().DestroyObject();
     }
 
     private void CheckIfObjectHasComeOnScreen()
