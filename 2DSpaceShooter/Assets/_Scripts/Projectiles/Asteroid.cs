@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Asteroid : MonoBehaviour, IDamageable, IDestroyable
+public class Asteroid : MonoBehaviour, IDamageable, IDestroyable, IEnemy
 {
     [SerializeField] EnemySO _enemyData;
 
@@ -10,6 +10,11 @@ public class Asteroid : MonoBehaviour, IDamageable, IDestroyable
             Instantiate(_enemyData.DestructionParticles, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
+    }
+
+    public void SetEnemyData(EnemySO enemyData)
+    {
+        _enemyData = enemyData;
     }
 
     public void TakeDamage(int amount)
