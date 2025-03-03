@@ -27,6 +27,11 @@ public class Player : MonoBehaviour, IDamageable, IDestroyable
         Destroy(gameObject);
     }
 
+    public void QuietDestroy()
+    {
+        Destroy(gameObject);
+    }
+
     public void TakeDamage(int amount)
     {
         _currentHealth -= 1;

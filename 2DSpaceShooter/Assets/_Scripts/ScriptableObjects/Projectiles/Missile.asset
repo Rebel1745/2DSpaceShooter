@@ -22,3 +22,4 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   DestructionParticles: {fileID: 0}
+  DestroyWhenOffscreenDistance: 2

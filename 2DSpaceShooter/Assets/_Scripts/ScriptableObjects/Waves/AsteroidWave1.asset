@@ -15,10 +15,7 @@ MonoBehaviour:
   Enemy: {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
   EnemyCount: 3
   SpawnLocationType: 1
-  SpawnPoint: {x: 0, y: 0}
-  SpawnPositionType: 0
-  CustomSpawnPointMinimum: {x: 0, y: 0}
-  CustomSpawnPointMaximum: {x: 0, y: 0}
-  TimeBetweenEnemy: 0.5
+  SpawnPointX: 0
+  TimeBetweenEnemy: 1
   TimeBeforeWaveBegins: 1
   TimeBeforeWaveEnds: 2

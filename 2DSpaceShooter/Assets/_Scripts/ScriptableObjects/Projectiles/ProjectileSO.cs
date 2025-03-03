@@ -11,4 +11,5 @@ public class ProjectileSO : ScriptableObject
     public int Damage = 1;
     public LayerMask ProjectileLayer;
     public GameObject DestructionParticles;
+    public float DestroyWhenOffscreenDistance = 0f;
 }

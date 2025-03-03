@@ -1,8 +1,20 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Missile : MonoBehaviour, IDestroyable
+public class Missile : Entity, IDestroyable
 {
     ProjectileSO _projectileData;
+
+    protected override void Update()
+    {
+        base.Update();
+
+        if (HasComeOnscreenYet)
+        {
+            if (_projectileData.DestroyWhenOffscreenDistance != 0f && CheckIfOffscreenByAmount(_projectileData.DestroyWhenOffscreenDistance))
+                QuietDestroy();
+        }
+    }
 
     public void SetupMissile(ProjectileSO projectile)
     {
@@ -14,12 +26,14 @@ public class Missile : MonoBehaviour, IDestroyable
 
     void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!HasComeOnscreenYet)
+            return;
+
         if (collision.transform.TryGetComponent<IDamageable>(out IDamageable obj))
         {
             obj.TakeDamage(_projectileData.Damage);
             DestroyObject();
         }
-
     }
 
     public void DestroyObject()
@@ -29,6 +43,12 @@ public class Missile : MonoBehaviour, IDestroyable
 
         // This is the function that should create an explosion and remove the missile from the pooled objects pool.
         // for now it will just destroy the object
+        Destroy(gameObject);
+    }
+
+    // destry the object without creating an explosion or any palava (suitable for going offscreen)
+    public void QuietDestroy()
+    {
         Destroy(gameObject);
     }
 }

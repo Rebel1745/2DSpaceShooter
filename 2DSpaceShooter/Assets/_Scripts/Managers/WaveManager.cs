@@ -8,11 +8,12 @@ public class WaveManager : MonoBehaviour
     private WaveSO _currentWave;
     private int _currentWaveIndex = 0;
     private WAVE_STATE _currentWaveState;
+    [SerializeField] private float _waveSpawnPointYOffset = 2f;
     private float _waveStartTime;
     private float _waveEndTime;
     private int _enemiesSpawned;
     private GameObject _tmpEnemy;
-    private Vector2 _spawnPoint;
+    private float _spawnPointX;
     private float _lastEnemySpawnedTime;
 
     // get rid of these and put them in a function somewhere else to be accessed globally
@@ -44,8 +45,8 @@ public class WaveManager : MonoBehaviour
         _currentWaveState = WAVE_STATE.WaitingToBegin;
         _waveStartTime = Time.time;
         _enemiesSpawned = 0;
-        Debug.Log("Wave " + (_currentWaveIndex + 1) + " Starting");
-        Debug.Log("Wating for wave to begin");
+        //Debug.Log("Wave " + (_currentWaveIndex + 1) + " Starting");
+        //Debug.Log("Wating for wave to begin");
     }
 
     // Update is called once per frame
@@ -60,7 +61,7 @@ public class WaveManager : MonoBehaviour
         {
             if (Time.time > _waveStartTime + _currentWave.TimeBeforeWaveBegins)
             {
-                Debug.Log("Wave starting");
+                //Debug.Log("Wave starting");
                 _currentWaveState = WAVE_STATE.Spawning;
                 return;
             }
@@ -69,7 +70,7 @@ public class WaveManager : MonoBehaviour
         {
             if (_enemiesSpawned >= _currentWave.EnemyCount)
             {
-                Debug.Log("Wating for wave to end");
+                //Debug.Log("Wating for wave to end");
                 _currentWaveState = WAVE_STATE.WaitingToEnd;
                 _waveEndTime = Time.time;
 
@@ -84,14 +85,14 @@ public class WaveManager : MonoBehaviour
         {
             if (Time.time > _waveEndTime + _currentWave.TimeBeforeWaveEnds)
             {
-                if (_currentWaveIndex != _waves.Length)
+                _currentWaveIndex++;
+                if (_currentWaveIndex < _waves.Length)
                 {
-                    _currentWaveIndex++;
                     SetupWave(_waves[_currentWaveIndex]);
                 }
                 else
                 {
-                    Debug.Log("End of wave(s)");
+                    //Debug.Log("End of wave(s)");
                 }
             }
         }
@@ -99,17 +100,11 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Debug.Log("Spawning enemy " + (_enemiesSpawned + 1));
-        if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range)
-        {
-            if (_currentWave.SpawnPositionType == SPAWN_POSITION_TYPE.Custom)
-                _spawnPoint = new Vector2(Random.Range(_currentWave.CustomSpawnPointMinimum.x, _currentWave.CustomSpawnPointMaximum.x), Random.Range(_currentWave.CustomSpawnPointMinimum.y, _currentWave.CustomSpawnPointMaximum.y));
-            else
-                _spawnPoint = new Vector2(Random.Range(-_adjustedScreenWidth, _adjustedScreenWidth), _cameraOrthographicSize + 2f);
-        }
-        else _spawnPoint = _currentWave.SpawnPoint;
+        //Debug.Log("Spawning enemy " + (_enemiesSpawned + 1));
+        if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range) _spawnPointX = Random.Range(-_adjustedScreenWidth, _adjustedScreenWidth);
+        else _spawnPointX = _currentWave.SpawnPointX;
 
-        _tmpEnemy = Instantiate(_currentWave.Enemy.EnemyPrefab, _spawnPoint, Quaternion.identity);
+        _tmpEnemy = Instantiate(_currentWave.Enemy.EnemyPrefab, new Vector3(_spawnPointX, _cameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity);
         _tmpEnemy.GetComponent<IEnemy>().SetEnemyData(_currentWave.Enemy);
         _enemiesSpawned++;
         _lastEnemySpawnedTime = Time.time;
