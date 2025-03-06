@@ -11,7 +11,6 @@ public class PlayerVerticalInputController : MonoBehaviour
     Vector2Int _moveInput;
     [SerializeField] Vector2 _moveSpeed = new(8f, 5f);
     [SerializeField] Transform _missileSpawnPoint;
-    [SerializeField] Transform _missleHolder;
     [SerializeField] ProjectileSO _projectile;
     [SerializeField] LayerMask _projectileLayer;
     float _currentProjectileCooldown;
@@ -44,7 +43,8 @@ public class PlayerVerticalInputController : MonoBehaviour
     private void FireMissile()
     {
         _currentProjectileCooldown = _projectile.Cooldown;
-        GameObject newMissile = Instantiate(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, _missleHolder);
+        //GameObject newMissile = Instantiate(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, _missleHolder);
+        GameObject newMissile = ObjectPoolManager.SpawnObject(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, ObjectPoolManager.POOL_TYPE.Projectile);
         newMissile.GetComponent<Missile>().SetupMissile(_projectile);
     }
 

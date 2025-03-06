@@ -1,17 +1,25 @@
 using UnityEngine;
+using System.Collections;
 
 public class DestroyAfterTime : MonoBehaviour
 {
-    float _timeUntileDestroy;
+    [SerializeField] float _timeUntileDestroy;
+    private Coroutine _returnToPoolTimerCoroutine;
 
-    public void SetDestroyAfterTime(float timeUntilDestroy)
+    void OnEnable()
     {
-        _timeUntileDestroy = timeUntilDestroy;
+        _returnToPoolTimerCoroutine = StartCoroutine(ReturnToPoolAfterTime());
     }
 
-    void Update()
+    private IEnumerator ReturnToPoolAfterTime()
     {
-        _timeUntileDestroy -= Time.deltaTime;
+        float elapsedTime = 0f;
+        while (elapsedTime < _timeUntileDestroy)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
         if (_timeUntileDestroy < 0 && TryGetComponent<IDestroyable>(out IDestroyable obj))
             obj.DestroyObject();
     }

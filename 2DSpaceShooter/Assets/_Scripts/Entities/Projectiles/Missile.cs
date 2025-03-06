@@ -20,7 +20,6 @@ public class Missile : Entity, IDestroyable
     {
         _projectileData = projectile;
         GetComponent<MoveForward>().SetSpeed(_projectileData.ProjectileSpeed);
-        GetComponent<DestroyAfterTime>().SetDestroyAfterTime(_projectileData.TimeUntilProjectileDestroyed);
         gameObject.layer = LayerMask.NameToLayer("PlayerProjectiles");
     }
 
@@ -39,16 +38,16 @@ public class Missile : Entity, IDestroyable
     public void DestroyObject()
     {
         if (_projectileData.DestructionParticles)
-            Instantiate(_projectileData.DestructionParticles, transform.position, Quaternion.identity);
+            ObjectPoolManager.SpawnObject(_projectileData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
         // This is the function that should create an explosion and remove the missile from the pooled objects pool.
         // for now it will just destroy the object
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     // destry the object without creating an explosion or any palava (suitable for going offscreen)
     public void QuietDestroy()
     {
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 }

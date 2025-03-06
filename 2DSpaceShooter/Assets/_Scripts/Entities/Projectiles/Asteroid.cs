@@ -18,14 +18,14 @@ public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
     public void DestroyObject()
     {
         if (_enemyData.DestructionParticles)
-            Instantiate(_enemyData.DestructionParticles, transform.position, Quaternion.identity);
+            ObjectPoolManager.SpawnObject(_enemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     public void QuietDestroy()
     {
-        Destroy(gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     public void SetEnemyData(EnemySO enemyData)

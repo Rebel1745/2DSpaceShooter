@@ -21,7 +21,8 @@ public class Player : MonoBehaviour, IDamageable, IDestroyable
     {
         if (_deathParticles)
         {
-            Instantiate(_deathParticles, transform.position, Quaternion.identity);
+            //Instantiate(_deathParticles, transform.position, Quaternion.identity);
+            ObjectPoolManager.SpawnObject(_deathParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
         }
 
         Destroy(gameObject);

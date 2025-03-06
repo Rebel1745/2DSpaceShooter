@@ -104,7 +104,9 @@ public class WaveManager : MonoBehaviour
         if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range) _spawnPointX = Random.Range(-_adjustedScreenWidth, _adjustedScreenWidth);
         else _spawnPointX = _currentWave.SpawnPointX;
 
-        _tmpEnemy = Instantiate(_currentWave.Enemy.EnemyPrefab, new Vector3(_spawnPointX, _cameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity);
+        _tmpEnemy = null;
+        //_tmpEnemy = Instantiate(_currentWave.Enemy.EnemyPrefab, new Vector3(_spawnPointX, _cameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity);
+        _tmpEnemy = ObjectPoolManager.SpawnObject(_currentWave.Enemy.EnemyPrefab, new Vector3(_spawnPointX, _cameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.Enemy);
         _tmpEnemy.GetComponent<IEnemy>().SetEnemyData(_currentWave.Enemy);
         _enemiesSpawned++;
         _lastEnemySpawnedTime = Time.time;
