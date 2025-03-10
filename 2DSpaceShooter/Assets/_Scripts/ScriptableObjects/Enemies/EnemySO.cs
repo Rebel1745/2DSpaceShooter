@@ -7,4 +7,5 @@ public class EnemySO : ScriptableObject
     public GameObject DestructionParticles;
     public float EnemySpeed = 2f;
     public float DestroyWhenOffscreenDistance = 0f;
+    public bool RotateSpriteRandomly = false;
 }

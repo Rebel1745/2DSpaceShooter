@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9ceb4d1732c1a34eb48606cd9092f63, type: 3}
-  m_Name: Enemy_Asteroid
+  m_Name: Enemy_Asteroid2
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 6302686307059515077, guid: 63839defb72867b40a6d8137a019f479, type: 3}
+  EnemyPrefab: {fileID: 6302686307059515077, guid: a33a0b3eb89d5ea44bb55c705bccfac0, type: 3}
   DestructionParticles: {fileID: 5974918557837421353, guid: 73e6a3f1ed7335640b2503ec7c4aa33b, type: 3}
   EnemySpeed: 2
   DestroyWhenOffscreenDistance: 2
+  RotateSpriteRandomly: 1

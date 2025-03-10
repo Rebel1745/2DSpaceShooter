@@ -4,7 +4,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerVerticalInputController : MonoBehaviour
 {
-    float _cameraOrthographicSize;
     [SerializeField] Vector2 _axisBoundsX;
     [SerializeField] Vector2 _axisBoundsY;
     int _normInputX, _normInputY;
@@ -15,11 +14,6 @@ public class PlayerVerticalInputController : MonoBehaviour
     [SerializeField] LayerMask _projectileLayer;
     float _currentProjectileCooldown;
     bool _fireMissile = false;
-
-    void Awake()
-    {
-        _cameraOrthographicSize = Camera.main.orthographicSize;
-    }
 
     public void Movement(InputAction.CallbackContext context)
     {
@@ -73,25 +67,22 @@ public class PlayerVerticalInputController : MonoBehaviour
         Vector2 moveTo = _moveInput * _moveSpeed * Time.deltaTime;
         transform.Translate(moveTo.x, moveTo.y, 0f);
 
-        float widthHeighRatio = (float)Screen.width / (float)Screen.height;
-        float adjustedScreenWidth = _cameraOrthographicSize * widthHeighRatio;
-
         // limit movement to screen size
-        if (transform.position.y > _cameraOrthographicSize - _axisBoundsY.y)
+        if (transform.position.y > GameManager.Instance.CameraOrthographicSize - _axisBoundsY.y)
         {
-            transform.position = new Vector3(transform.position.x, _cameraOrthographicSize - _axisBoundsY.y, 0f);
+            transform.position = new Vector3(transform.position.x, GameManager.Instance.CameraOrthographicSize - _axisBoundsY.y, 0f);
         }
-        else if (transform.position.y < -_cameraOrthographicSize + _axisBoundsY.x)
+        else if (transform.position.y < -GameManager.Instance.CameraOrthographicSize + _axisBoundsY.x)
         {
-            transform.position = new Vector3(transform.position.x, -_cameraOrthographicSize + _axisBoundsY.x, 0f);
+            transform.position = new Vector3(transform.position.x, -GameManager.Instance.CameraOrthographicSize + _axisBoundsY.x, 0f);
         }
-        if (transform.position.x > adjustedScreenWidth - _axisBoundsX.y)
+        if (transform.position.x > GameManager.Instance.AdjustedScreenWidth - _axisBoundsX.y)
         {
-            transform.position = new Vector3(adjustedScreenWidth - _axisBoundsX.y, transform.position.y, 0f);
+            transform.position = new Vector3(GameManager.Instance.AdjustedScreenWidth - _axisBoundsX.y, transform.position.y, 0f);
         }
-        else if (transform.position.x < -adjustedScreenWidth + _axisBoundsX.x)
+        else if (transform.position.x < -GameManager.Instance.AdjustedScreenWidth + _axisBoundsX.x)
         {
-            transform.position = new Vector3(-adjustedScreenWidth + _axisBoundsX.x, transform.position.y, 0f);
+            transform.position = new Vector3(-GameManager.Instance.AdjustedScreenWidth + _axisBoundsX.x, transform.position.y, 0f);
         }
     }
 }

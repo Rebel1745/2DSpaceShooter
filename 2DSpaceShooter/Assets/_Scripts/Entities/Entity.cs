@@ -3,22 +3,9 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour
 {
-    private float _cameraOrthographicSize;
     private bool _hasComeOnscreenYet = false;
     public bool HasComeOnscreenYet { get { return _hasComeOnscreenYet; } }
-    private float _widthHeighRatio;
-    private float _adjustedScreenWidth;
 
-    void Awake()
-    {
-        _cameraOrthographicSize = Camera.main.orthographicSize;
-    }
-
-    void Start()
-    {
-        _widthHeighRatio = (float)Screen.width / (float)Screen.height;
-        _adjustedScreenWidth = _cameraOrthographicSize * _widthHeighRatio;
-    }
     protected virtual void Update()
     {
         if (!_hasComeOnscreenYet)
@@ -29,10 +16,10 @@ public class Entity : MonoBehaviour
 
     private void CheckIfObjectHasComeOnScreen()
     {
-        if (transform.position.y < _cameraOrthographicSize &&
-            transform.position.y > -_cameraOrthographicSize &&
-            transform.position.x < _adjustedScreenWidth &&
-            transform.position.x > -_adjustedScreenWidth)
+        if (transform.position.y < GameManager.Instance.CameraOrthographicSize &&
+            transform.position.y > -GameManager.Instance.CameraOrthographicSize &&
+            transform.position.x < GameManager.Instance.AdjustedScreenWidth &&
+            transform.position.x > -GameManager.Instance.AdjustedScreenWidth)
         {
             _hasComeOnscreenYet = true;
         }
@@ -41,19 +28,19 @@ public class Entity : MonoBehaviour
     protected bool CheckIfOffscreenByAmount(float amount)
     {
         // limit movement to screen size
-        if (transform.position.y > _cameraOrthographicSize + amount)
+        if (transform.position.y > GameManager.Instance.CameraOrthographicSize + amount)
         {
             return true;
         }
-        else if (transform.position.y < -_cameraOrthographicSize - amount)
+        else if (transform.position.y < -GameManager.Instance.CameraOrthographicSize - amount)
         {
             return true;
         }
-        if (transform.position.x > _adjustedScreenWidth + amount)
+        if (transform.position.x > GameManager.Instance.AdjustedScreenWidth + amount)
         {
             return true;
         }
-        else if (transform.position.x < -_adjustedScreenWidth - amount)
+        else if (transform.position.x < -GameManager.Instance.AdjustedScreenWidth - amount)
         {
             return true;
         }

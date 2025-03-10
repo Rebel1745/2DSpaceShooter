@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98b88b1f611ee444bd80feb8d425055, type: 3}
   m_Name: AsteroidWave2
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
-  EnemyCount: 4
+  Enemies:
+  - {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
+  - {fileID: 11400000, guid: 9a5f04a542cebea42adb554457714acd, type: 2}
+  - {fileID: 11400000, guid: 7a8373a6420304a4da14a57f116eb759, type: 2}
+  EnemyCount: 10
+  RandomEnemy: 1
   SpawnLocationType: 1
-  SpawnPoint: {x: 0, y: 0}
-  SpawnPositionType: 0
-  CustomSpawnPointMinimum: {x: 0, y: 0}
-  CustomSpawnPointMaximum: {x: 0, y: 0}
+  SpawnPointX: 0
   TimeBetweenEnemy: 0.5
   TimeBeforeWaveBegins: 1
-  TimeBeforeWaveEnds: 2
+  TimeBeforeWaveEnds: 5
+  WaitForEnemiesToBeDestroyedBeforeNextWave: 1

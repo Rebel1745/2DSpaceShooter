@@ -17,6 +17,7 @@ public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
 
     public void DestroyObject()
     {
+        WaveManager.Instance.EnemyDestroyed();
         if (_enemyData.DestructionParticles)
             ObjectPoolManager.SpawnObject(_enemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
@@ -25,6 +26,7 @@ public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
 
     public void QuietDestroy()
     {
+        WaveManager.Instance.EnemyDestroyed();
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
