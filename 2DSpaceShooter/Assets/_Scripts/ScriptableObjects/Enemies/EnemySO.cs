@@ -8,4 +8,5 @@ public class EnemySO : ScriptableObject
     public float EnemySpeed = 2f;
     public float DestroyWhenOffscreenDistance = 0f;
     public bool RotateSpriteRandomly = false;
+    public GameObject SplinePathToFollow;
 }

@@ -1,4 +1,6 @@
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class WaveManager : MonoBehaviour
 {
@@ -15,8 +17,20 @@ public class WaveManager : MonoBehaviour
     private int _enemiesSpawned;
     private int _enemiesDestroyed;
     private GameObject _tmpEnemy;
+    private GameObject _tmpEnemyPath;
     private float _spawnPointX;
     private float _lastEnemySpawnedTime;
+
+    // Grid of enemies info
+    [SerializeField] private float _enemyGridXBounds;
+    [SerializeField] private float _enemyGridYBounds;
+    private Vector2 _enemyGridBoundsMin;
+    private Vector2 _enemyGridBoundsMax;
+    private float _enemyGridStartPosX;
+    private float _enemyGridStartPosY;
+    private float _enemiesPerRow;
+    private float _distancePerEnemyX;
+    private float _distancePerEnemyY;
 
     void Awake()
     {
@@ -41,8 +55,15 @@ public class WaveManager : MonoBehaviour
         _waveStartTime = Time.time;
         _enemiesSpawned = 0;
         _enemiesDestroyed = 0;
-        //Debug.Log("Wave " + (_currentWaveIndex + 1) + " Starting");
-        //Debug.Log("Wating for wave to begin");
+
+        // figure out the size of the grid of enemies for this wave. This will make the grid go across the screen but no lower than half the height
+        _enemyGridBoundsMin = new(-((GameManager.Instance.AdjustedScreenWidth / 2) + _enemyGridXBounds), _enemyGridYBounds);
+        _enemyGridBoundsMax = new(GameManager.Instance.AdjustedScreenWidth - _enemyGridXBounds, GameManager.Instance.CameraOrthographicSize - _enemyGridYBounds);
+        _enemyGridStartPosX = _enemyGridBoundsMin.x;
+        _enemyGridStartPosY = _enemyGridBoundsMax.y;
+        _enemiesPerRow = Mathf.Ceil((float)currentWave.EnemyCount / (float)currentWave.EnemyRows);
+        _distancePerEnemyX = ((GameManager.Instance.AdjustedScreenWidth * 2) - (_enemyGridXBounds * 2)) / _enemiesPerRow;
+        _distancePerEnemyY = (GameManager.Instance.CameraOrthographicSize - (_enemyGridYBounds * 2)) / _currentWave.EnemyRows;
     }
 
     // Update is called once per frame
@@ -104,24 +125,59 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
+        Debug.Log("Spawning enemy");
         if (_currentWave.RandomEnemy)
-            _enemy = _currentWave.Enemies[Random.Range(0, _currentWave.Enemies.Length)];
+            _enemy = _currentWave.Enemies[UnityEngine.Random.Range(0, _currentWave.Enemies.Length)];
 
-        //Debug.Log("Spawning enemy " + (_enemiesSpawned + 1));
-        if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range) _spawnPointX = Random.Range((float)-GameManager.Instance.AdjustedScreenWidth, (float)GameManager.Instance.AdjustedScreenWidth);
+        // Determine the position to place the spline that the enemy will follow starts at
+        if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range)
+        {
+            if (_currentWave.SpawnPointXRange == Vector2.zero)
+                _spawnPointX = UnityEngine.Random.Range((float)-GameManager.Instance.AdjustedScreenWidth, (float)GameManager.Instance.AdjustedScreenWidth);
+            else
+                _spawnPointX = UnityEngine.Random.Range(_currentWave.SpawnPointXRange.x, _currentWave.SpawnPointXRange.y);
+        }
         else _spawnPointX = _currentWave.SpawnPointX;
+
+        _tmpEnemyPath = null;
+        _tmpEnemyPath = ObjectPoolManager.SpawnObject(_enemy.SplinePathToFollow, new Vector3(_spawnPointX, 7f, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.SplinePath);
+        SplineContainer enemySpline = _tmpEnemyPath.GetComponent<SplineContainer>();
+
+        // add the final position of the enemy to the end of the spline
+        Vector2 finalPos = CalculateEnemyGridPosition();
+        float3 finalPosKnot = new(finalPos.x - enemySpline.transform.position.x, finalPos.y - enemySpline.transform.position.y, 0.0f);
+        enemySpline.Spline.Add(finalPosKnot);
 
         _tmpEnemy = null;
 
         _tmpEnemy = ObjectPoolManager.SpawnObject(_enemy.EnemyPrefab, new Vector3(_spawnPointX, GameManager.Instance.CameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.Enemy);
-        _tmpEnemy.GetComponent<IEnemy>().SetEnemyData(_enemy);
+        IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
+        iEnemy.SetEnemyData(_enemy);
+
         if (_enemy.RotateSpriteRandomly)
         {
             SpriteRenderer sr = _tmpEnemy.GetComponentInChildren<SpriteRenderer>();
-            sr.transform.rotation = Quaternion.Euler(0f, 0f, Random.Range(0f, 360f));
+            sr.transform.rotation = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f, 360f));
         }
+
+        SplineAnimate sa = _tmpEnemy.GetComponent<SplineAnimate>();
+        sa.Container = enemySpline;
+        sa.MaxSpeed = _enemy.EnemySpeed;
+
+        // get the enemy moving
+        sa.Play();
+
         _enemiesSpawned++;
         _lastEnemySpawnedTime = Time.time;
+    }
+
+    private Vector2 CalculateEnemyGridPosition()
+    {
+        Vector2 placeInGrid = new(_enemiesSpawned % _enemiesPerRow, Mathf.FloorToInt((float)_enemiesSpawned / (float)_enemiesPerRow));
+        float xPos = _enemyGridStartPosX + (placeInGrid.x * _distancePerEnemyX);
+        float yPos = _enemyGridStartPosY - (placeInGrid.y * _distancePerEnemyY);
+
+        return new Vector2(xPos, yPos);
     }
 
     public void EnemyDestroyed()

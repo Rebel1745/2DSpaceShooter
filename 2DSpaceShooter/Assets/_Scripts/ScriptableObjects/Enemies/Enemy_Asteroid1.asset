@@ -17,3 +17,4 @@ MonoBehaviour:
   EnemySpeed: 2
   DestroyWhenOffscreenDistance: 2
   RotateSpriteRandomly: 1
+  SplinePathToFollow: {fileID: 3182323889009148560, guid: 8171efc28f9950448b45ae006b0a73e4, type: 3}

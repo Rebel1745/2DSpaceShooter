@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Enemies:
   - {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
-  - {fileID: 11400000, guid: 9a5f04a542cebea42adb554457714acd, type: 2}
   EnemyCount: 10
+  EnemyRows: 2
   RandomEnemy: 1
-  SpawnLocationType: 1
+  SpawnLocationType: 0
   SpawnPointX: 0
+  SpawnPointXRange: {x: -5, y: 5}
   TimeBetweenEnemy: 1
   TimeBeforeWaveBegins: 1
   TimeBeforeWaveEnds: 5

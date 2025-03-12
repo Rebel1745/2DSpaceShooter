@@ -11,12 +11,14 @@ public class ObjectPoolManager : MonoBehaviour
     private static GameObject _particleSytemsEmpty;
     private static GameObject _enemiesEmpty;
     private static GameObject _projectilesEmpty;
+    private static GameObject _splinePathsEmpty;
 
     public enum POOL_TYPE
     {
         ParticleSystem,
         Enemy,
         Projectile,
+        SplinePath,
         None
     }
     public static POOL_TYPE PoolingType;
@@ -38,6 +40,9 @@ public class ObjectPoolManager : MonoBehaviour
 
         _projectilesEmpty = new GameObject("Projectiles");
         _projectilesEmpty.transform.SetParent(_objectPoolEmptyHolder.transform);
+
+        _splinePathsEmpty = new GameObject("Spline Paths");
+        _splinePathsEmpty.transform.SetParent(_objectPoolEmptyHolder.transform);
     }
 
     public static GameObject SpawnObject(GameObject objectToSpawn, Vector3 spawnPosition, Quaternion spawnRotation, POOL_TYPE poolType = POOL_TYPE.None)
@@ -159,6 +164,7 @@ public class ObjectPoolManager : MonoBehaviour
             POOL_TYPE.ParticleSystem => _particleSytemsEmpty,
             POOL_TYPE.Enemy => _enemiesEmpty,
             POOL_TYPE.Projectile => _projectilesEmpty,
+            POOL_TYPE.SplinePath => _splinePathsEmpty,
             _ => null,
         };
     }
