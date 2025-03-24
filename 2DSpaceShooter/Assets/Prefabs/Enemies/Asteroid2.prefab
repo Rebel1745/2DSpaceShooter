@@ -96,10 +96,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9093267001869474460}
-  - component: {fileID: 8263493904881014239}
   - component: {fileID: 8146156976071598671}
   - component: {fileID: 8539225405780836646}
   - component: {fileID: 2231863638926327937}
+  - component: {fileID: -364688055478677566}
   m_Layer: 8
   m_Name: Asteroid2
   m_TagString: Enemy
@@ -123,19 +123,6 @@ Transform:
   - {fileID: 7169062961036974719}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8263493904881014239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6302686307059515077}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc2166b944a04ab4b911fbececfd840d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _speed: -2
 --- !u!114 &8146156976071598671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,3 +221,26 @@ PolygonCollider2D:
       - {x: 0.5513468, y: 0.16872978}
       - {x: 0.21868229, y: 0.4885208}
   m_UseDelaunayMesh: 0
+--- !u!114 &-364688055478677566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6302686307059515077}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29a074d529cf945029ef7cf40540c9df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Target: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_LoopMode: 0
+  m_Method: 1
+  m_Duration: 1
+  m_MaxSpeed: 1
+  m_EasingMode: 0
+  m_AlignmentMode: 0
+  m_ObjectForwardAxis: 4
+  m_ObjectUpAxis: 2
+  m_StartOffset: 0

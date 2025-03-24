@@ -128,6 +128,7 @@ public class WaveManager : MonoBehaviour
         Debug.Log("Spawning enemy");
         if (_currentWave.RandomEnemy)
             _enemy = _currentWave.Enemies[UnityEngine.Random.Range(0, _currentWave.Enemies.Length)];
+        else _enemy = _currentWave.Enemies[0];
 
         // Determine the position to place the spline that the enemy will follow starts at
         if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range)
@@ -143,21 +144,24 @@ public class WaveManager : MonoBehaviour
         _tmpEnemyPath = ObjectPoolManager.SpawnObject(_enemy.SplinePathToFollow, new Vector3(_spawnPointX, 7f, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.SplinePath);
         SplineContainer enemySpline = _tmpEnemyPath.GetComponent<SplineContainer>();
 
-        // add the final position of the enemy to the end of the spline
-        Vector2 finalPos = CalculateEnemyGridPosition();
-        float3 finalPosKnot = new(finalPos.x - enemySpline.transform.position.x, finalPos.y - enemySpline.transform.position.y, 0.0f);
-        enemySpline.Spline.Add(finalPosKnot);
-
         _tmpEnemy = null;
 
         _tmpEnemy = ObjectPoolManager.SpawnObject(_enemy.EnemyPrefab, new Vector3(_spawnPointX, GameManager.Instance.CameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.Enemy);
-        IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
-        iEnemy.SetEnemyData(_enemy);
+        //IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
+        //iEnemy.SetEnemyData(_enemy);
 
         if (_enemy.RotateSpriteRandomly)
         {
             SpriteRenderer sr = _tmpEnemy.GetComponentInChildren<SpriteRenderer>();
             sr.transform.rotation = Quaternion.Euler(0f, 0f, UnityEngine.Random.Range(0f, 360f));
+        }
+
+        if (_enemy.AlignEnemyInGridAfterSplinePathFollowed)
+        {
+            // add the final position of the enemy to the end of the spline
+            Vector2 finalPos = CalculateEnemyGridPosition();
+            float3 finalPosKnot = new(finalPos.x - enemySpline.transform.position.x, finalPos.y - enemySpline.transform.position.y, 0.0f);
+            enemySpline.Spline.Add(finalPosKnot);
         }
 
         SplineAnimate sa = _tmpEnemy.GetComponent<SplineAnimate>();
@@ -173,7 +177,9 @@ public class WaveManager : MonoBehaviour
 
     private Vector2 CalculateEnemyGridPosition()
     {
-        Vector2 placeInGrid = new(_enemiesSpawned % _enemiesPerRow, Mathf.FloorToInt((float)_enemiesSpawned / (float)_enemiesPerRow));
+        //Vector2 placeInGrid = new(_enemiesSpawned % _enemiesPerRow, Mathf.FloorToInt((float)_enemiesSpawned / (float)_enemiesPerRow));
+        Vector2 placeInGrid = new(Mathf.FloorToInt((float)_enemiesSpawned / (float)_currentWave.EnemyRows), _enemiesSpawned % _currentWave.EnemyRows);
+        Debug.Log(placeInGrid);
         float xPos = _enemyGridStartPosX + (placeInGrid.x * _distancePerEnemyX);
         float yPos = _enemyGridStartPosY - (placeInGrid.y * _distancePerEnemyY);
 

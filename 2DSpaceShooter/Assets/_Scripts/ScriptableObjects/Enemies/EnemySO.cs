@@ -9,4 +9,5 @@ public class EnemySO : ScriptableObject
     public float DestroyWhenOffscreenDistance = 0f;
     public bool RotateSpriteRandomly = false;
     public GameObject SplinePathToFollow;
+    public bool AlignEnemyInGridAfterSplinePathFollowed;
 }

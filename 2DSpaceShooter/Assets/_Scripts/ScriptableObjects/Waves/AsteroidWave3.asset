@@ -17,10 +17,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a5f04a542cebea42adb554457714acd, type: 2}
   - {fileID: 11400000, guid: 7a8373a6420304a4da14a57f116eb759, type: 2}
   - {fileID: 11400000, guid: 16f4a20b523e4ad4caaf143668f85dc5, type: 2}
-  EnemyCount: 0
+  EnemyCount: 10
+  EnemyRows: 1
   RandomEnemy: 1
   SpawnLocationType: 1
   SpawnPointX: 0
+  SpawnPointXRange: {x: 0, y: 0}
   TimeBetweenEnemy: 0.5
   TimeBeforeWaveBegins: 1
   TimeBeforeWaveEnds: 5

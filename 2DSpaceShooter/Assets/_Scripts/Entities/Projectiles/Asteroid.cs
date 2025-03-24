@@ -28,6 +28,7 @@ public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
         {
             CheckSplineAnimationFinished();
         }
+        else QuietDestroy();
     }
 
     public void DestroyObject()

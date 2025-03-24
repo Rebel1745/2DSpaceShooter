@@ -429,9 +429,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
-  - {fileID: 11400000, guid: a920995273987414eb3e1281e338c0be, type: 2}
-  - {fileID: 11400000, guid: b3656f9950c6ebd409ef53b38c014c62, type: 2}
-  - {fileID: 11400000, guid: bb4b1e78abe985043af762c2583b5995, type: 2}
+  - {fileID: 11400000, guid: ea7a6953e56522649a27aaec0f71e977, type: 2}
   _waveSpawnPointYOffset: 2
   _enemyGridXBounds: 2
   _enemyGridYBounds: 1
@@ -495,7 +493,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1559405635
 SpriteRenderer:
   m_ObjectHideFlags: 0
