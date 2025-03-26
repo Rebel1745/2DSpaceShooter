@@ -125,7 +125,6 @@ public class WaveManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        Debug.Log("Spawning enemy");
         if (_currentWave.RandomEnemy)
             _enemy = _currentWave.Enemies[UnityEngine.Random.Range(0, _currentWave.Enemies.Length)];
         else _enemy = _currentWave.Enemies[0];
@@ -147,8 +146,8 @@ public class WaveManager : MonoBehaviour
         _tmpEnemy = null;
 
         _tmpEnemy = ObjectPoolManager.SpawnObject(_enemy.EnemyPrefab, new Vector3(_spawnPointX, GameManager.Instance.CameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.Enemy);
-        //IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
-        //iEnemy.SetEnemyData(_enemy);
+        IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
+        iEnemy.SetEnemyData(_enemy);
 
         if (_enemy.RotateSpriteRandomly)
         {
@@ -164,12 +163,7 @@ public class WaveManager : MonoBehaviour
             enemySpline.Spline.Add(finalPosKnot);
         }
 
-        SplineAnimate sa = _tmpEnemy.GetComponent<SplineAnimate>();
-        sa.Container = enemySpline;
-        sa.MaxSpeed = _enemy.EnemySpeed;
-
-        // get the enemy moving
-        sa.Play();
+        iEnemy.SetSplineAnimateProperties(enemySpline, _enemy.EnemySpeed);
 
         _enemiesSpawned++;
         _lastEnemySpawnedTime = Time.time;

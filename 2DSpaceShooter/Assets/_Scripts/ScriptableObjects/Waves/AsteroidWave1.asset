@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: AsteroidWave1
   m_EditorClassIdentifier: 
   Enemies:
-  - {fileID: 11400000, guid: d0a77107f8cb42049b71e42c0d7e6d0f, type: 2}
+  - {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
   EnemyCount: 10
   EnemyRows: 1
-  RandomEnemy: 1
+  RandomEnemy: 0
   SpawnLocationType: 1
   SpawnPointX: 0
   SpawnPointXRange: {x: -5, y: 5}

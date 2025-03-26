@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
+public class Asteroid1 : Entity, IDamageable, IDestroyable, IEnemy
 {
     [SerializeField] EnemySO _enemyData;
     private SplineAnimate _sa;
@@ -66,5 +66,10 @@ public class Asteroid : Entity, IDamageable, IDestroyable, IEnemy
     public void CheckSplineAnimationFinished()
     {
         _splineAnimationFinished = !_sa.IsPlaying;
+    }
+
+    public void SetSplineAnimateProperties(SplineContainer spline, float speed)
+    {
+        throw new System.NotImplementedException();
     }
 }

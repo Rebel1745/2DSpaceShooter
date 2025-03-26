@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6928629851790211108}
   - component: {fileID: 3898103331791657196}
   - component: {fileID: 3087431755761047017}
+  - component: {fileID: 4373901605795385225}
   m_Layer: 8
   m_Name: Enemy1
   m_TagString: Enemy
@@ -81,17 +82,18 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.025829554, y: 0.46726632}
-      - {x: -0.18693113, y: 0.3992045}
-      - {x: -0.39572197, y: 0.28964475}
-      - {x: -0.49415296, y: -0.10516274}
-      - {x: -0.39696467, y: -0.29565525}
-      - {x: -0.19755912, y: -0.4114232}
-      - {x: 0.06453371, y: -0.45384908}
-      - {x: 0.23936224, y: -0.3731103}
-      - {x: 0.46805596, y: -0.21392131}
-      - {x: 0.4868977, y: 0.16744828}
-      - {x: 0.4150939, y: 0.33807534}
+    - - {x: -0.00008440763, y: 0.29293603}
+      - {x: -0.24111488, y: 0.29554865}
+      - {x: -0.30855682, y: 0.13416095}
+      - {x: -0.3716506, y: 0.0102721825}
+      - {x: -0.37576234, y: -0.15195057}
+      - {x: -0.19284748, y: -0.06276262}
+      - {x: -0.0014290959, y: -0.31956762}
+      - {x: 0.19460174, y: -0.06449857}
+      - {x: 0.36911178, y: -0.16209339}
+      - {x: 0.37853026, y: 0.014320314}
+      - {x: 0.30264664, y: 0.13596301}
+      - {x: 0.23840776, y: 0.3003823}
   m_UseDelaunayMesh: 0
 --- !u!50 &3898103331791657196
 Rigidbody2D:
@@ -143,6 +145,19 @@ MonoBehaviour:
   m_ObjectForwardAxis: 4
   m_ObjectUpAxis: 2
   m_StartOffset: 0
+--- !u!114 &4373901605795385225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000059538305635408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fd30b76db49ba447a7f56a2f7458698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _sa: {fileID: 0}
 --- !u!1 &2184054738089319211
 GameObject:
   m_ObjectHideFlags: 0
