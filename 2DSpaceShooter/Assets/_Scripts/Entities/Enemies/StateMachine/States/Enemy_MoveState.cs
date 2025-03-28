@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Enemy_MoveState : EnemyState
 {
-    public Enemy_MoveState(Enemy enemy, EnemyStateMachine stateMachine) : base(enemy, stateMachine)
+    public Enemy_MoveState(Enemy enemy, EnemyStateMachine stateMachine, EnemySO enemyData) : base(enemy, stateMachine, enemyData)
     {
     }
 
@@ -11,6 +11,6 @@ public class Enemy_MoveState : EnemyState
         base.Enter();
 
         // get the enemy moving
-        _enemy._sa.Play();
+        if (!_enemy.SA.IsPlaying) _enemy.SA.Play();
     }
 }

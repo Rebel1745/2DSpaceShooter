@@ -5,16 +5,26 @@ public class Enemy : MonoBehaviour, IEnemy
 {
     protected EnemyStateMachine _stateMachine;
 
-    protected EnemySO _enemyData;
-    public SplineAnimate _sa;
+    public EnemySO EnemyData { get; private set; }
+    public SplineAnimate SA { get; private set; }
     protected bool _hasComeOnscreenYet = false;
     protected bool _splineAnimationFinished = false;
     protected Vector2 _enemyGridPosition;
+    protected bool _hasPerformedFirstAttack;
+    protected float _timeOfNextAttack;
+    public bool CanAttack { get; private set; }
+    public Transform AttackSpawnPoint { get; private set; }
 
     protected virtual void Awake()
     {
         _stateMachine = new EnemyStateMachine();
-        _sa = GetComponent<SplineAnimate>();
+        SA = GetComponent<SplineAnimate>();
+    }
+
+    protected virtual void Start()
+    {
+        CanAttack = false;
+        if (EnemyData.CanAttack) _timeOfNextAttack = Time.time + EnemyData.TimeBeforeFirstAttack;
     }
 
     protected virtual void Update()
@@ -22,7 +32,10 @@ public class Enemy : MonoBehaviour, IEnemy
         if (!_hasComeOnscreenYet)
         {
             CheckIfObjectHasComeOnScreen();
+            return; // Should this return here? Or should it just continue to the logic update? If there are any problems executing logic, this will no doubt be the cause
         }
+
+        if (!CanAttack && EnemyData.CanAttack) CheckIfCanAttack();
 
         _stateMachine.CurrentState.LogicUpate();
     }
@@ -67,13 +80,25 @@ public class Enemy : MonoBehaviour, IEnemy
         return false;
     }
 
+    protected void CheckIfCanAttack()
+    {
+        if (Time.time > _timeOfNextAttack)
+            CanAttack = true;
+    }
+
     public void CheckSplineAnimationFinished()
     {
-        _splineAnimationFinished = !_sa.IsPlaying;
+        _splineAnimationFinished = !SA.IsPlaying;
     }
     #endregion
 
     #region Set Functions
+    public void SetNextAttackTime()
+    {
+        CanAttack = false;
+        _timeOfNextAttack = Time.time + EnemyData.TimeBetweenAttacks;
+    }
+
     public void SetGridPosition(Vector2 pos)
     {
         _enemyGridPosition = pos;
@@ -81,13 +106,23 @@ public class Enemy : MonoBehaviour, IEnemy
 
     public void SetEnemyData(EnemySO enemyData)
     {
-        _enemyData = enemyData;
+        EnemyData = enemyData;
+        if (EnemyData.CanAttack)
+        {
+            // Dont know if this is a good way to go about it but oh well
+            AttackSpawnPoint = transform.GetChild(1);
+        }
+
+        // after setting the data, we can now initialise the states for the enemy
+        InitialiseStates();
     }
+
+    public virtual void InitialiseStates() { }
 
     public void SetSplineAnimateProperties(SplineContainer spline, float speed)
     {
-        _sa.Container = spline;
-        _sa.MaxSpeed = speed;
+        SA.Container = spline;
+        SA.MaxSpeed = speed;
     }
     #endregion
 }

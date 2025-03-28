@@ -4,13 +4,15 @@ public class EnemyState
 {
     protected EnemyStateMachine _stateMachine;
     protected Enemy _enemy;
+    protected EnemySO _enemyData;
 
     protected float _startTime;
 
-    public EnemyState(Enemy enemy, EnemyStateMachine stateMachine)
+    public EnemyState(Enemy enemy, EnemyStateMachine stateMachine, EnemySO enemyData)
     {
         _enemy = enemy;
         _stateMachine = stateMachine;
+        _enemyData = enemyData;
     }
 
     public virtual void Enter()

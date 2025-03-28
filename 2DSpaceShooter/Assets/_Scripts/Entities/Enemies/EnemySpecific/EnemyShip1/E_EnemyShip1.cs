@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class E_EnemyShip1 : Enemy, IDamageable, IDestroyable
 {
+    public E_EnemyShip1_IdleState IdleState { get; private set; }
     public E_EnemyShip1_MoveState MoveState { get; private set; }
+    public E_EnemyShip1_AttackState AttackState { get; private set; }
 
     public void DestroyObject()
     {
@@ -19,15 +21,14 @@ public class E_EnemyShip1 : Enemy, IDamageable, IDestroyable
         throw new System.NotImplementedException();
     }
 
-    protected override void Awake()
+    public override void InitialiseStates()
     {
-        base.Awake();
+        base.InitialiseStates();
 
-        MoveState = new E_EnemyShip1_MoveState(this, _stateMachine);
-    }
+        IdleState = new E_EnemyShip1_IdleState(this, _stateMachine, EnemyData, this);
+        MoveState = new E_EnemyShip1_MoveState(this, _stateMachine, EnemyData, this);
+        AttackState = new E_EnemyShip1_AttackState(this, _stateMachine, EnemyData, this);
 
-    private void Start()
-    {
         _stateMachine.Initialise(MoveState);
     }
 }

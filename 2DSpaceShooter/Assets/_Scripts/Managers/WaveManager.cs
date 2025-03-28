@@ -147,7 +147,6 @@ public class WaveManager : MonoBehaviour
 
         _tmpEnemy = ObjectPoolManager.SpawnObject(_enemy.EnemyPrefab, new Vector3(_spawnPointX, GameManager.Instance.CameraOrthographicSize + _waveSpawnPointYOffset, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.Enemy);
         IEnemy iEnemy = _tmpEnemy.GetComponent<IEnemy>();
-        iEnemy.SetEnemyData(_enemy);
 
         if (_enemy.RotateSpriteRandomly)
         {
@@ -164,6 +163,7 @@ public class WaveManager : MonoBehaviour
         }
 
         iEnemy.SetSplineAnimateProperties(enemySpline, _enemy.EnemySpeed);
+        iEnemy.SetEnemyData(_enemy);
 
         _enemiesSpawned++;
         _lastEnemySpawnedTime = Time.time;
@@ -173,7 +173,6 @@ public class WaveManager : MonoBehaviour
     {
         //Vector2 placeInGrid = new(_enemiesSpawned % _enemiesPerRow, Mathf.FloorToInt((float)_enemiesSpawned / (float)_enemiesPerRow));
         Vector2 placeInGrid = new(Mathf.FloorToInt((float)_enemiesSpawned / (float)_currentWave.EnemyRows), _enemiesSpawned % _currentWave.EnemyRows);
-        Debug.Log(placeInGrid);
         float xPos = _enemyGridStartPosX + (placeInGrid.x * _distancePerEnemyX);
         float yPos = _enemyGridStartPosY - (placeInGrid.y * _distancePerEnemyY);
 

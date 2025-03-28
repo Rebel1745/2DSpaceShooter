@@ -10,4 +10,8 @@ public class EnemySO : ScriptableObject
     public bool RotateSpriteRandomly = false;
     public GameObject SplinePathToFollow;
     public bool AlignEnemyInGridAfterSplinePathFollowed;
+    public bool CanAttack = true;
+    public ProjectileSO Projectile;
+    public float TimeBeforeFirstAttack;
+    public float TimeBetweenAttacks;
 }
