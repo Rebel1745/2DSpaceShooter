@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class Enemy : MonoBehaviour, IEnemy
+public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
 {
     protected EnemyStateMachine _stateMachine;
 
@@ -23,8 +23,7 @@ public class Enemy : MonoBehaviour, IEnemy
 
     protected virtual void Start()
     {
-        CanAttack = false;
-        if (EnemyData.CanAttack) _timeOfNextAttack = Time.time + EnemyData.TimeBeforeFirstAttack;
+        if (EnemyData.CanAttack) SetNextAttackTime();
     }
 
     protected virtual void Update()
@@ -96,7 +95,8 @@ public class Enemy : MonoBehaviour, IEnemy
     public void SetNextAttackTime()
     {
         CanAttack = false;
-        _timeOfNextAttack = Time.time + EnemyData.TimeBetweenAttacks;
+        float randomness = Random.Range(-EnemyData.RandomnessTimeForAttacks, EnemyData.RandomnessTimeForAttacks);
+        _timeOfNextAttack = Time.time + EnemyData.TimeBetweenAttacks + randomness;
     }
 
     public void SetGridPosition(Vector2 pos)
@@ -123,6 +123,27 @@ public class Enemy : MonoBehaviour, IEnemy
     {
         SA.Container = spline;
         SA.MaxSpeed = speed;
+    }
+
+    public virtual void TakeDamage(int amount)
+    {
+    }
+
+    public virtual void DestroyObject()
+    {
+        WaveManager.Instance.EnemyDestroyed();
+        if (EnemyData.DestructionParticles)
+            ObjectPoolManager.SpawnObject(EnemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
+
+        ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
+    }
+
+    public virtual void QuietDestroy()
+    {
+        WaveManager.Instance.EnemyDestroyed();
+        ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
+        ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
     #endregion
 }

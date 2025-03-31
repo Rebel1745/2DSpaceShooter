@@ -20,7 +20,7 @@ public class Missile : Entity, IDestroyable
     {
         _projectileData = projectile;
         GetComponent<MoveForward>().SetSpeed(_projectileData.ProjectileSpeed);
-        gameObject.layer = LayerMask.NameToLayer("PlayerProjectiles");
+        gameObject.layer = _projectileData.IsPlayerProjectile ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("EnemyProjectile");
     }
 
     void OnTriggerEnter2D(Collider2D collision)

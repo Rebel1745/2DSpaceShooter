@@ -9,7 +9,7 @@ public class ProjectileSO : ScriptableObject
     public float Cooldown = 0.5f;
     public bool AutoFire = false;
     public int Damage = 1;
-    public LayerMask ProjectileLayer;
+    public bool IsPlayerProjectile;
     public GameObject DestructionParticles;
     public float DestroyWhenOffscreenDistance = 0f;
 }

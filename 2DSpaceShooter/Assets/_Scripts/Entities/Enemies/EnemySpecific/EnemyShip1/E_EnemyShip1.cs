@@ -1,25 +1,10 @@
 using UnityEngine;
 
-public class E_EnemyShip1 : Enemy, IDamageable, IDestroyable
+public class E_EnemyShip1 : Enemy
 {
     public E_EnemyShip1_IdleState IdleState { get; private set; }
     public E_EnemyShip1_MoveState MoveState { get; private set; }
     public E_EnemyShip1_AttackState AttackState { get; private set; }
-
-    public void DestroyObject()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void QuietDestroy()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void TakeDamage(int amount)
-    {
-        throw new System.NotImplementedException();
-    }
 
     public override void InitialiseStates()
     {
@@ -30,5 +15,11 @@ public class E_EnemyShip1 : Enemy, IDamageable, IDestroyable
         AttackState = new E_EnemyShip1_AttackState(this, _stateMachine, EnemyData, this);
 
         _stateMachine.Initialise(MoveState);
+    }
+
+    public override void TakeDamage(int amount)
+    {
+        base.TakeDamage(amount);
+        DestroyObject();
     }
 }

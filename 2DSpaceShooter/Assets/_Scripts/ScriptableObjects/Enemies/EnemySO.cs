@@ -14,4 +14,5 @@ public class EnemySO : ScriptableObject
     public ProjectileSO Projectile;
     public float TimeBeforeFirstAttack;
     public float TimeBetweenAttacks;
+    public float RandomnessTimeForAttacks;
 }

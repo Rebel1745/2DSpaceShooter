@@ -16,10 +16,8 @@ MonoBehaviour:
   ProjectileSpeed: 5
   TimeUntilProjectileDestroyed: 2
   Cooldown: 0.5
-  AutoFire: 0
+  AutoFire: 1
   Damage: 1
-  ProjectileLayer:
-    serializedVersion: 2
-    m_Bits: 128
+  IsPlayerProjectile: 1
   DestructionParticles: {fileID: 0}
   DestroyWhenOffscreenDistance: 2

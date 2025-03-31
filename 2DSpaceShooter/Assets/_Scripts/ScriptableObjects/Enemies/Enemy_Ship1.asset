@@ -21,5 +21,6 @@ MonoBehaviour:
   AlignEnemyInGridAfterSplinePathFollowed: 1
   CanAttack: 1
   Projectile: {fileID: 11400000, guid: 2c9e6c34f6604334cb76be76e589df83, type: 2}
-  TimeBeforeFirstAttack: 1
-  TimeBetweenAttacks: 2
+  TimeBeforeFirstAttack: 3
+  TimeBetweenAttacks: 5
+  RandomnessTimeForAttacks: 1

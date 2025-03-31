@@ -9,12 +9,6 @@ public class E_Asteroid : Enemy, IDamageable, IDestroyable
     {
         base.Update();
 
-        if (_hasComeOnscreenYet)
-        {
-            if (EnemyData.DestroyWhenOffscreenDistance != 0f && CheckIfOffscreenByAmount(EnemyData.DestroyWhenOffscreenDistance))
-                QuietDestroy();
-        }
-
         if (!_splineAnimationFinished)
         {
             CheckSplineAnimationFinished();
@@ -22,24 +16,7 @@ public class E_Asteroid : Enemy, IDamageable, IDestroyable
         else QuietDestroy();
     }
 
-    public void DestroyObject()
-    {
-        WaveManager.Instance.EnemyDestroyed();
-        if (EnemyData.DestructionParticles)
-            ObjectPoolManager.SpawnObject(EnemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
-
-        ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
-    }
-
-    public void QuietDestroy()
-    {
-        WaveManager.Instance.EnemyDestroyed();
-        ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
-        ObjectPoolManager.ReturnObjectToPool(gameObject);
-    }
-
-    public void TakeDamage(int amount)
+    public override void TakeDamage(int amount)
     {
         DestroyObject();
     }
