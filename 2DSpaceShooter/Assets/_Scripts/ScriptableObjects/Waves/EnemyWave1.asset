@@ -12,15 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98b88b1f611ee444bd80feb8d425055, type: 3}
   m_Name: EnemyWave1
   m_EditorClassIdentifier: 
-  Enemies:
-  - {fileID: 11400000, guid: d0a77107f8cb42049b71e42c0d7e6d0f, type: 2}
-  EnemyCount: 10
+  WaveElements:
+  - {fileID: 11400000, guid: 2f7574e3d89db504488cc6442ac73c31, type: 2}
+  - {fileID: 11400000, guid: 82086c920ed1d6247856280892a9f0c8, type: 2}
   EnemyRows: 2
-  RandomEnemy: 0
-  SpawnLocationType: 0
-  SpawnPointX: -2
-  SpawnPointXRange: {x: 0, y: 0}
-  TimeBetweenEnemy: 0.5
   TimeBeforeWaveBegins: 1
   TimeBeforeWaveEnds: 1
   WaitForEnemiesToBeDestroyedBeforeNextWave: 1

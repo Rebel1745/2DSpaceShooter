@@ -15,7 +15,7 @@ MonoBehaviour:
   EnemyPrefab: {fileID: 6302686307059515077, guid: a33a0b3eb89d5ea44bb55c705bccfac0, type: 3}
   DestructionParticles: {fileID: 5974918557837421353, guid: 73e6a3f1ed7335640b2503ec7c4aa33b, type: 3}
   EnemySpeed: 1
-  DestroyWhenOffscreenDistance: 2
+  DestroyWhenOffscreenDistance: 5
   RotateSpriteRandomly: 1
   SplinePathToFollow: {fileID: 649039226477761775, guid: f55f3c951ab04f84e83076055b9aa2c2, type: 3}
   AlignEnemyInGridAfterSplinePathFollowed: 0
@@ -23,3 +23,4 @@ MonoBehaviour:
   Projectile: {fileID: 0}
   TimeBeforeFirstAttack: 0
   TimeBetweenAttacks: 0
+  RandomnessTimeForAttacks: 0

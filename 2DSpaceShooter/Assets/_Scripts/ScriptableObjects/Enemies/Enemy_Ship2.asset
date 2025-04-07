@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9ceb4d1732c1a34eb48606cd9092f63, type: 3}
-  m_Name: Enemy_Asteroid1
+  m_Name: Enemy_Ship2
   m_EditorClassIdentifier: 
-  EnemyPrefab: {fileID: 6302686307059515077, guid: 63839defb72867b40a6d8137a019f479, type: 3}
+  EnemyPrefab: {fileID: 1000059538305635408, guid: a597fb59146097049864210d2cc72598, type: 3}
   DestructionParticles: {fileID: 5974918557837421353, guid: 73e6a3f1ed7335640b2503ec7c4aa33b, type: 3}
   EnemySpeed: 2
   DestroyWhenOffscreenDistance: 5
-  RotateSpriteRandomly: 1
-  SplinePathToFollow: {fileID: 649039226477761775, guid: f55f3c951ab04f84e83076055b9aa2c2, type: 3}
-  AlignEnemyInGridAfterSplinePathFollowed: 0
-  CanAttack: 0
-  Projectile: {fileID: 0}
-  TimeBeforeFirstAttack: 0
-  TimeBetweenAttacks: 0
-  RandomnessTimeForAttacks: 0
+  RotateSpriteRandomly: 0
+  SplinePathToFollow: {fileID: 3182323889009148560, guid: 8171efc28f9950448b45ae006b0a73e4, type: 3}
+  AlignEnemyInGridAfterSplinePathFollowed: 1
+  CanAttack: 1
+  Projectile: {fileID: 11400000, guid: 2c9e6c34f6604334cb76be76e589df83, type: 2}
+  TimeBeforeFirstAttack: 3
+  TimeBetweenAttacks: 5
+  RandomnessTimeForAttacks: 1

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Splines;
 
-public class E_Asteroid : Enemy, IDamageable, IDestroyable
+public class E_Asteroid : Enemy
 {
     public E_Asteroid_MoveState MoveState { get; private set; }
 

@@ -12,15 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98b88b1f611ee444bd80feb8d425055, type: 3}
   m_Name: AsteroidWave1
   m_EditorClassIdentifier: 
-  Enemies:
-  - {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
-  EnemyCount: 10
+  WaveElements:
+  - {fileID: 11400000, guid: 026330c4a618f3b4c8395c46b13a63b2, type: 2}
+  - {fileID: 11400000, guid: 5046576fe56acd946b20b113db56689d, type: 2}
+  - {fileID: 11400000, guid: 563785b55e174944caae127eb5e551c0, type: 2}
+  - {fileID: 11400000, guid: c4441e0403934374186f2adbf72ff3c0, type: 2}
+  - {fileID: 11400000, guid: c5216bf5ec874f542948eb7c7f8b42f1, type: 2}
   EnemyRows: 1
-  RandomEnemy: 0
-  SpawnLocationType: 1
-  SpawnPointX: 0
-  SpawnPointXRange: {x: -5, y: 5}
-  TimeBetweenEnemy: 1
   TimeBeforeWaveBegins: 1
   TimeBeforeWaveEnds: 5
   WaitForEnemiesToBeDestroyedBeforeNextWave: 1

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aaeada67652d0eb4fbbebb85fc1b817d, type: 3}
+  m_Name: Wave1RandomAsteroids
+  m_EditorClassIdentifier: 
+  Enemies:
+  - {fileID: 11400000, guid: d7dc9750ee765a142ba68adfc2d8d241, type: 2}
+  - {fileID: 11400000, guid: 9a5f04a542cebea42adb554457714acd, type: 2}
+  - {fileID: 11400000, guid: 7a8373a6420304a4da14a57f116eb759, type: 2}
+  - {fileID: 11400000, guid: 16f4a20b523e4ad4caaf143668f85dc5, type: 2}
+  EnemyCount: 30
+  RandomEnemy: 1
+  SpawnLocationType: 1
+  SpawnPointX: 0
+  SpawnPointXRange: {x: 0, y: 0}
+  TimeBetweenEnemy: 1
+  TimeBeforeWaveBegins: 0
+  TimeBeforeWaveEnds: 0
+  WaitForEnemiesToBeDestroyedBeforeNextWaveElement: 1

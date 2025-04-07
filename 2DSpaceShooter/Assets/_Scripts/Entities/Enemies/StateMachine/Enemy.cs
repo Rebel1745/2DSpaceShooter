@@ -44,6 +44,13 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
         _stateMachine.CurrentState.PhysicsUpdate();
     }
 
+    protected virtual void OnEnable()
+    {
+        _hasComeOnscreenYet = false;
+        _hasPerformedFirstAttack = false;
+        _splineAnimationFinished = false;
+    }
+
     #region Check Functions
     private void CheckIfObjectHasComeOnScreen()
     {

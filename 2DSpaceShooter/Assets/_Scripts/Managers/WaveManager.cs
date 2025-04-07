@@ -1,4 +1,5 @@
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Splines;
 
@@ -32,9 +33,21 @@ public class WaveManager : MonoBehaviour
     private float _distancePerEnemyX;
     private float _distancePerEnemyY;
 
+    // wave elements info
+    private float _totalEnemies;
+    private WaveElementSO _currentWaveElement;
+    private int _currentWaveElementIndex;
+    private int _enemiesSpawnedThisWaveElement;
+    private int _enemiesToSpawnThisWaveElement;
+    private int _enemiesToBeDestroyedIncludingThisWaveElement;
+    private float _waveElementStartTime;
+    private float _waveElementEndTime;
+    private WAVE_STATE _currentWaveElementState;
+
     void Awake()
     {
         if (Instance == null) Instance = this;
+        _currentWaveIndex = 0;
     }
 
     void Start()
@@ -55,15 +68,40 @@ public class WaveManager : MonoBehaviour
         _waveStartTime = Time.time;
         _enemiesSpawned = 0;
         _enemiesDestroyed = 0;
+        _currentWaveElementIndex = 0;
+
+        GetWaveDetails(_currentWave);
 
         // figure out the size of the grid of enemies for this wave. This will make the grid go across the screen but no lower than half the height
         _enemyGridBoundsMin = new(-((GameManager.Instance.AdjustedScreenWidth / 2) + _enemyGridXBounds), _enemyGridYBounds);
         _enemyGridBoundsMax = new(GameManager.Instance.AdjustedScreenWidth - _enemyGridXBounds, GameManager.Instance.CameraOrthographicSize - _enemyGridYBounds);
         _enemyGridStartPosX = _enemyGridBoundsMin.x;
         _enemyGridStartPosY = _enemyGridBoundsMax.y;
-        _enemiesPerRow = Mathf.Ceil((float)currentWave.EnemyCount / (float)currentWave.EnemyRows);
+        _enemiesPerRow = Mathf.Ceil((float)_totalEnemies / (float)currentWave.EnemyRows);
         _distancePerEnemyX = ((GameManager.Instance.AdjustedScreenWidth * 2) - (_enemyGridXBounds * 2)) / _enemiesPerRow;
         _distancePerEnemyY = (GameManager.Instance.CameraOrthographicSize - (_enemyGridYBounds * 2)) / _currentWave.EnemyRows;
+
+        SetupWaveElement(_currentWave.WaveElements[_currentWaveElementIndex]);
+    }
+
+    private void SetupWaveElement(WaveElementSO waveElement)
+    {
+        _currentWaveElement = waveElement;
+        _enemiesSpawnedThisWaveElement = 0;
+        _enemiesToSpawnThisWaveElement = _currentWaveElement.EnemyCount;
+        _enemiesToBeDestroyedIncludingThisWaveElement += _enemiesToSpawnThisWaveElement;
+        _waveElementStartTime = Time.time;
+        _currentWaveElementState = WAVE_STATE.WaitingToBegin;
+    }
+
+    private void GetWaveDetails(WaveSO wave)
+    {
+        _totalEnemies = 0;
+
+        foreach (WaveElementSO we in wave.WaveElements)
+        {
+            _totalEnemies += we.EnemyCount;
+        }
     }
 
     // Update is called once per frame
@@ -74,70 +112,104 @@ public class WaveManager : MonoBehaviour
 
     void DoWave()
     {
-        // if we are waiting for all enemies to be destroyed, do nothing
-        if (_currentWaveState == WAVE_STATE.WaitingForDestruction)
-            return;
-
-        if (_currentWaveState == WAVE_STATE.WaitingToBegin)
+        switch (_currentWaveState)
         {
-            if (Time.time > _waveStartTime + _currentWave.TimeBeforeWaveBegins)
-            {
-                //Debug.Log("Wave starting");
-                _currentWaveState = WAVE_STATE.Spawning;
-                return;
-            }
-        }
-        if (_currentWaveState == WAVE_STATE.Spawning)
-        {
-            if (_enemiesSpawned >= _currentWave.EnemyCount)
-            {
-                if (_currentWave.WaitForEnemiesToBeDestroyedBeforeNextWave)
-                    _currentWaveState = WAVE_STATE.WaitingForDestruction;
-                else
-                {
+            case WAVE_STATE.WaitingForDestruction:
+                if (_enemiesDestroyed == _totalEnemies)
                     _currentWaveState = WAVE_STATE.WaitingToEnd;
-                    _waveEndTime = Time.time;
-                }
+                break;
 
-                return;
-            }
-
-            // actually spawn the current enemy in the wave
-            if (Time.time > _lastEnemySpawnedTime + _currentWave.TimeBetweenEnemy)
-                SpawnEnemy();
-        }
-        if (_currentWaveState == WAVE_STATE.WaitingToEnd)
-        {
-            if (Time.time > _waveEndTime + _currentWave.TimeBeforeWaveEnds)
-            {
-                _currentWaveIndex++;
-                if (_currentWaveIndex < _waves.Length)
+            case WAVE_STATE.WaitingToBegin:
+                if (Time.time > _waveStartTime + _currentWave.TimeBeforeWaveBegins)
                 {
-                    SetupWave(_waves[_currentWaveIndex]);
+                    _currentWaveState = WAVE_STATE.Spawning;
+                }
+                break;
+            case WAVE_STATE.Spawning:
+                DoWaveElement();
+                break;
+            case WAVE_STATE.WaitingToEnd:
+                if (Time.time > _waveEndTime + _currentWave.TimeBeforeWaveEnds)
+                {
+                    _currentWaveIndex++;
+                    if (_currentWaveIndex < _waves.Length)
+                        SetupWave(_waves[_currentWaveIndex]);
+                }
+                break;
+        }
+    }
+
+    private void DoWaveElement()
+    {
+        switch (_currentWaveElementState)
+        {
+            case WAVE_STATE.WaitingToBegin:
+                if (Time.time > _waveElementStartTime + _currentWaveElement.TimeBeforeWaveBegins)
+                {
+                    _currentWaveElementState = WAVE_STATE.Spawning;
+                    return;
+                }
+                break;
+            case WAVE_STATE.Spawning:
+                // have we spawned all of the enemies we have planned for this entire wave?
+                if (_enemiesSpawned == _totalEnemies)
+                {
+                    if (_currentWave.WaitForEnemiesToBeDestroyedBeforeNextWave)
+                        _currentWaveState = WAVE_STATE.WaitingForDestruction;
+                    else
+                    {
+                        _currentWaveState = WAVE_STATE.WaitingToEnd;
+                        _waveEndTime = Time.time;
+                    }
+                }
+                // have we spawned all of the enemies we have planned for this wave element?
+                else if (_enemiesSpawnedThisWaveElement >= _enemiesToSpawnThisWaveElement)
+                {
+                    if (_currentWaveElement.WaitForEnemiesToBeDestroyedBeforeNextWaveElement)
+                        _currentWaveElementState = WAVE_STATE.WaitingForDestruction;
+                    else
+                    {
+                        _currentWaveElementState = WAVE_STATE.WaitingToEnd;
+                        _waveElementEndTime = Time.time;
+                    }
                 }
                 else
                 {
-                    //Debug.Log("End of wave(s)");
+                    // actually spawn the current enemy in the wave
+                    if (Time.time > _lastEnemySpawnedTime + _currentWaveElement.TimeBetweenEnemy)
+                        SpawnEnemy();
                 }
-            }
+                break;
+            case WAVE_STATE.WaitingForDestruction:
+                if (_enemiesDestroyed == _enemiesToBeDestroyedIncludingThisWaveElement)
+                    _currentWaveElementState = WAVE_STATE.WaitingToEnd;
+                break;
+            case WAVE_STATE.WaitingToEnd:
+                if (Time.time > _waveElementEndTime + _currentWaveElement.TimeBeforeWaveEnds)
+                {
+                    _currentWaveElementIndex++;
+                    if (_currentWaveElementIndex < _currentWave.WaveElements.Length)
+                        SetupWaveElement(_waves[_currentWaveIndex].WaveElements[_currentWaveElementIndex]);
+                }
+                break;
         }
     }
 
     private void SpawnEnemy()
     {
-        if (_currentWave.RandomEnemy)
-            _enemy = _currentWave.Enemies[UnityEngine.Random.Range(0, _currentWave.Enemies.Length)];
-        else _enemy = _currentWave.Enemies[0];
+        if (_currentWaveElement.RandomEnemy)
+            _enemy = _currentWaveElement.Enemies[UnityEngine.Random.Range(0, _currentWaveElement.Enemies.Length)];
+        else _enemy = _currentWaveElement.Enemies[0];
 
         // Determine the position to place the spline that the enemy will follow starts at
-        if (_currentWave.SpawnLocationType == SPAWN_LOCATION_TYPE.Range)
+        if (_currentWaveElement.SpawnLocationType == SPAWN_LOCATION_TYPE.Range)
         {
-            if (_currentWave.SpawnPointXRange == Vector2.zero)
+            if (_currentWaveElement.SpawnPointXRange == Vector2.zero)
                 _spawnPointX = UnityEngine.Random.Range((float)-GameManager.Instance.AdjustedScreenWidth, (float)GameManager.Instance.AdjustedScreenWidth);
             else
-                _spawnPointX = UnityEngine.Random.Range(_currentWave.SpawnPointXRange.x, _currentWave.SpawnPointXRange.y);
+                _spawnPointX = UnityEngine.Random.Range(_currentWaveElement.SpawnPointXRange.x, _currentWaveElement.SpawnPointXRange.y);
         }
-        else _spawnPointX = _currentWave.SpawnPointX;
+        else _spawnPointX = _currentWaveElement.SpawnPointX;
 
         _tmpEnemyPath = null;
         _tmpEnemyPath = ObjectPoolManager.SpawnObject(_enemy.SplinePathToFollow, new Vector3(_spawnPointX, 7f, 0f), Quaternion.identity, ObjectPoolManager.POOL_TYPE.SplinePath);
@@ -166,6 +238,7 @@ public class WaveManager : MonoBehaviour
         iEnemy.SetEnemyData(_enemy);
 
         _enemiesSpawned++;
+        _enemiesSpawnedThisWaveElement++;
         _lastEnemySpawnedTime = Time.time;
     }
 
@@ -183,8 +256,8 @@ public class WaveManager : MonoBehaviour
     {
         _enemiesDestroyed++;
 
-        if (_enemiesDestroyed == _enemiesSpawned)
-            _currentWaveState = WAVE_STATE.WaitingToEnd;
+        //if (_enemiesDestroyed == _totalEnemies)
+        //  _currentWaveState = WAVE_STATE.WaitingToEnd;
     }
 }
 
