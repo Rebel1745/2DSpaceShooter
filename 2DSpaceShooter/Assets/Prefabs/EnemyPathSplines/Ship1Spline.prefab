@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1314958793418196649}
+  - component: {fileID: -8556330883587150841}
   - component: {fileID: 6640742070865873773}
   m_Layer: 0
-  m_Name: TestSpinSpline
+  m_Name: Ship1Spline
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,6 +33,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8556330883587150841
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3182323889009148560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: babfed9a47a81424591123451039c2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6640742070865873773
 MonoBehaviour:
   m_ObjectHideFlags: 0
