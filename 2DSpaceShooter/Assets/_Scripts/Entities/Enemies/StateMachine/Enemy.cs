@@ -138,16 +138,20 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
 
     public virtual void DestroyObject()
     {
+        Debug.Log("DestroyObject");
         WaveManager.Instance.EnemyDestroyed();
         if (EnemyData.DestructionParticles)
             ObjectPoolManager.SpawnObject(EnemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
+        SA.ElapsedTime = 0;
         ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
     public virtual void QuietDestroy()
     {
+        Debug.Log("QuietDestroy");
+        SA.ElapsedTime = 0;
         WaveManager.Instance.EnemyDestroyed();
         ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
         ObjectPoolManager.ReturnObjectToPool(gameObject);

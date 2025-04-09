@@ -12,6 +12,6 @@ public class Enemy_MoveState : EnemyState
 
         // get the enemy moving
         if (!_enemy.SA.IsPlaying)
-            _enemy.SA.Restart(true);
+            _enemy.SA.Play();
     }
 }
