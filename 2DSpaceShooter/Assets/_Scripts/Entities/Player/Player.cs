@@ -12,11 +12,6 @@ public class Player : MonoBehaviour, IDamageable, IDestroyable
         _currentHealth = _startingHealth;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        TakeDamage(1);
-    }
-
     public void DestroyObject()
     {
         if (_deathParticles)

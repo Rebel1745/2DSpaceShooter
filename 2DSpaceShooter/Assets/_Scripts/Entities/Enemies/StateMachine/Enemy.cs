@@ -52,6 +52,15 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     }
 
     #region Check Functions
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        // check if we run into the player
+        if (collision.gameObject.tag == "Player")
+        {
+            collision.gameObject.GetComponent<IDamageable>().TakeDamage(1);
+            TakeDamage(1);
+        }
+    }
     private void CheckIfObjectHasComeOnScreen()
     {
         if (transform.position.y < GameManager.Instance.CameraOrthographicSize &&
@@ -138,7 +147,6 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
 
     public virtual void DestroyObject()
     {
-        Debug.Log("DestroyObject");
         WaveManager.Instance.EnemyDestroyed();
         if (EnemyData.DestructionParticles)
             ObjectPoolManager.SpawnObject(EnemyData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
@@ -150,7 +158,6 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
 
     public virtual void QuietDestroy()
     {
-        Debug.Log("QuietDestroy");
         SA.ElapsedTime = 0;
         WaveManager.Instance.EnemyDestroyed();
         ObjectPoolManager.ReturnObjectToPool(SA.Container.gameObject);
