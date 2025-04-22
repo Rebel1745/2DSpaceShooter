@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Missile : Entity, IDestroyable
 {
-    ProjectileSO _projectileData;
+    //ProjectileSO _projectileData;
+    WeaponProjectile _projectileData;
 
     protected override void Update()
     {
@@ -16,7 +17,7 @@ public class Missile : Entity, IDestroyable
         }
     }
 
-    public void SetupMissile(ProjectileSO projectile)
+    public void SetupMissile(WeaponProjectile projectile)
     {
         _projectileData = projectile;
         GetComponent<MoveForward>().SetSpeed(_projectileData.ProjectileSpeed);

@@ -9,11 +9,22 @@ public class PlayerVerticalInputController : MonoBehaviour
     int _normInputX, _normInputY;
     Vector2Int _moveInput;
     [SerializeField] Vector2 _moveSpeed = new(8f, 5f);
-    [SerializeField] Transform _missileSpawnPoint;
-    [SerializeField] ProjectileSO _projectile;
-    [SerializeField] LayerMask _projectileLayer;
-    float _currentProjectileCooldown;
+    [SerializeField] Transform[] _weaponSpawnPoints;
+    //[SerializeField] ProjectileSO _projectile;
+    //[SerializeField] LayerMask _projectileLayer;
+    //float _currentProjectileCooldown;
     bool _fireMissile = false;
+    [SerializeField] WeaponBase _currentWeapon;
+
+    private void Start()
+    {
+        LoadWeapon(_currentWeapon);
+    }
+
+    private void LoadWeapon(WeaponBase weapon)
+    {
+        weapon.LoadWeapon(_weaponSpawnPoints);
+    }
 
     public void Movement(InputAction.CallbackContext context)
     {
@@ -34,32 +45,31 @@ public class PlayerVerticalInputController : MonoBehaviour
         }
     }
 
-    private void FireMissile()
-    {
-        _currentProjectileCooldown = _projectile.Cooldown;
-        //GameObject newMissile = Instantiate(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, _missleHolder);
-        GameObject newMissile = ObjectPoolManager.SpawnObject(_projectile.ProjectilePrefab, _missileSpawnPoint.position, _missileSpawnPoint.rotation, ObjectPoolManager.POOL_TYPE.Projectile);
-        newMissile.GetComponent<Missile>().SetupMissile(_projectile);
-    }
-
     private void Update()
     {
         DoMovement();
-        DoCooldowns();
         DoAttacks();
     }
 
     private void DoAttacks()
     {
-        if ((_fireMissile || _projectile.AutoFire) && _currentProjectileCooldown <= 0f)
+        /*if ((_fireMissile || _projectile.AutoFire) && _currentProjectileCooldown <= 0f)
         {
+            //_currentWeapon.FireWeapon();
             FireMissile();
-        }
-    }
+        }*/
 
-    private void DoCooldowns()
-    {
-        _currentProjectileCooldown -= Time.deltaTime;
+        /*if (_currentWeapon.IsWeaponAttacking())
+        {
+            Debug.Log("Attacking");
+            _currentWeapon.UpdateAttack();
+        }
+        else*/
+        if ((_fireMissile || _currentWeapon.IsAutoAttack) && _currentWeapon.CanAttackBeStarted())
+        {
+            Debug.Log("Starting to attack");
+            _currentWeapon.StartAttack();
+        }
     }
 
     private void DoMovement()

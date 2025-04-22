@@ -9,10 +9,10 @@ public class Enemy_AttackState : EnemyState
     public override void Enter()
     {
         base.Enter();
-
-        GameObject newMissile = ObjectPoolManager.SpawnObject(_enemyData.Projectile.ProjectilePrefab, _enemy.AttackSpawnPoint.position, _enemy.AttackSpawnPoint.rotation, ObjectPoolManager.POOL_TYPE.Projectile);
+        // TODO: Sort enemy attack
+        /*GameObject newMissile = ObjectPoolManager.SpawnObject(_enemyData.Projectile.ProjectilePrefab, _enemy.AttackSpawnPoint.position, _enemy.AttackSpawnPoint.rotation, ObjectPoolManager.POOL_TYPE.Projectile);
         newMissile.GetComponent<Missile>().SetupMissile(_enemyData.Projectile);
         _enemy.SetNextAttackTime();
-        _stateMachine.ChangeState(_stateMachine.PreviousState);
+        _stateMachine.ChangeState(_stateMachine.PreviousState);*/
     }
 }
