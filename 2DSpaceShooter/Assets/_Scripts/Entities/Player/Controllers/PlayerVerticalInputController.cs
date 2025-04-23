@@ -10,9 +10,6 @@ public class PlayerVerticalInputController : MonoBehaviour
     Vector2Int _moveInput;
     [SerializeField] Vector2 _moveSpeed = new(8f, 5f);
     [SerializeField] Transform[] _weaponSpawnPoints;
-    //[SerializeField] ProjectileSO _projectile;
-    //[SerializeField] LayerMask _projectileLayer;
-    //float _currentProjectileCooldown;
     bool _fireMissile = false;
     [SerializeField] WeaponBase _currentWeapon;
 
@@ -53,21 +50,12 @@ public class PlayerVerticalInputController : MonoBehaviour
 
     private void DoAttacks()
     {
-        /*if ((_fireMissile || _projectile.AutoFire) && _currentProjectileCooldown <= 0f)
+        if (_currentWeapon.IsWeaponAttacking())
         {
-            //_currentWeapon.FireWeapon();
-            FireMissile();
-        }*/
-
-        /*if (_currentWeapon.IsWeaponAttacking())
-        {
-            Debug.Log("Attacking");
             _currentWeapon.UpdateAttack();
         }
-        else*/
-        if ((_fireMissile || _currentWeapon.IsAutoAttack) && _currentWeapon.CanAttackBeStarted())
+        else if ((_fireMissile || _currentWeapon.IsAutoAttack) && _currentWeapon.CanAttackBeStarted())
         {
-            Debug.Log("Starting to attack");
             _currentWeapon.StartAttack();
         }
     }

@@ -4,6 +4,7 @@ public abstract class WeaponBase : ScriptableObject
 {
     public GameObject WeaponPrefab;
     public bool IsAutoAttack = false;
+    public PlayerWeaponSpawnPoint[] _spawnPointDetails;
     protected Transform[] _spawnPoints;
     protected float _timeWeaponLastFired = 0f;
     protected bool _isWeaponAttacking = false;
