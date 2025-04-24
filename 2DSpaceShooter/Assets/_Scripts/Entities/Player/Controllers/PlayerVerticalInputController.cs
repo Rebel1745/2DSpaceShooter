@@ -20,7 +20,7 @@ public class PlayerVerticalInputController : MonoBehaviour
 
     private void LoadWeapon(WeaponBase weapon)
     {
-        weapon.LoadWeapon(_weaponSpawnPoints);
+        weapon.LoadWeapon(transform, _weaponSpawnPoints);
     }
 
     public void Movement(InputAction.CallbackContext context)

@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed39af5c8f5f6e47980b5208f7a3db8, type: 3}
+  m_Name: BasicLaser
+  m_EditorClassIdentifier: 
+  WeaponPrefab: {fileID: 0}
+  IsAutoAttack: 1
+  _spawnPointDetails:
+  - SpawnPointIndex: 0
+    SpawnPointAngle: 0
+  WhatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  LaserLength: 2
+  CooldownBetweenEnemyChecks: 0.1
+  LaserLineRendererPrefab: {fileID: 3148632841753285392, guid: 2e431ca5d1dec06449ed0cebd5ba512f, type: 3}
