@@ -6,6 +6,7 @@ public abstract class WeaponBase : ScriptableObject
     public bool IsAutoAttack = false;
     public PlayerWeaponSpawnPoint[] _spawnPointDetails;
     public LayerMask WhatIsEnemy;
+    public float Damage = 1;
     protected Transform[] _spawnPoints;
     protected float _timeWeaponLastFired = 0f;
     protected bool _isWeaponAttacking = false;

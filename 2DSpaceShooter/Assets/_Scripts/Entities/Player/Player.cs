@@ -3,8 +3,8 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable, IDestroyable
 {
     [SerializeField] GameObject _deathParticles;
-    [SerializeField] int _startingHealth;
-    int _currentHealth;
+    [SerializeField] float _startingHealth;
+    float _currentHealth;
     public float CurrentHealth { get { return _currentHealth; } }
 
     void Start()
@@ -28,9 +28,9 @@ public class Player : MonoBehaviour, IDamageable, IDestroyable
         Destroy(gameObject);
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
-        _currentHealth -= 1;
+        _currentHealth -= amount;
 
         if (_currentHealth <= 0) DestroyObject();
     }

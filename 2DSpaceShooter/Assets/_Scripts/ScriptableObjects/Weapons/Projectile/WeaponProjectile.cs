@@ -9,7 +9,6 @@ public class WeaponProjectile : WeaponBase
     public float CooldownBetweenBursts = 0.5f;
     public float ProjectileSpeed = 5f;
     public float TimeUntilProjectileDestroyed = 2f;
-    public int Damage = 1;
     public bool IsPlayerProjectile;
     public GameObject DestructionParticles;
     public float DestroyWhenOffscreenDistance = 0f;

@@ -14,6 +14,8 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     protected float _timeOfNextAttack;
     public bool CanAttack { get; private set; }
     public Transform AttackSpawnPoint { get; private set; }
+    [SerializeField] protected float _startingHealth = 1;
+    protected float _currentHealth;
 
     protected virtual void Awake()
     {
@@ -24,6 +26,7 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     protected virtual void Start()
     {
         if (EnemyData.CanAttack) SetNextAttackTime();
+        _currentHealth = _startingHealth;
     }
 
     protected virtual void Update()
@@ -141,8 +144,12 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
         SA.MaxSpeed = speed;
     }
 
-    public virtual void TakeDamage(int amount)
+    public virtual void TakeDamage(float amount)
     {
+        _currentHealth -= amount;
+
+        if (_currentHealth <= 0f)
+            DestroyObject();
     }
 
     public virtual void DestroyObject()

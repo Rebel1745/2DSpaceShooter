@@ -16,11 +16,6 @@ public class E_Asteroid : Enemy
         else QuietDestroy();
     }
 
-    public override void TakeDamage(int amount)
-    {
-        DestroyObject();
-    }
-
     public override void InitialiseStates()
     {
         base.InitialiseStates();

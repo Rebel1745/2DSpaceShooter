@@ -34,7 +34,7 @@ public class Shield : MonoBehaviour, IDamageable, IDestroyable
         throw new System.NotImplementedException();
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         _currentHitAmount--;
 

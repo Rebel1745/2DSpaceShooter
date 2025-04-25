@@ -16,10 +16,4 @@ public class E_EnemyShip1 : Enemy
 
         _stateMachine.Initialise(MoveState);
     }
-
-    public override void TakeDamage(int amount)
-    {
-        base.TakeDamage(amount);
-        DestroyObject();
-    }
 }

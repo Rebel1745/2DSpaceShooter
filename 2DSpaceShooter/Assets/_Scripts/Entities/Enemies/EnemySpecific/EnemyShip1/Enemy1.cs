@@ -28,7 +28,7 @@ public class Enemy1 : Entity, IDamageable, IDestroyable, IEnemy
         throw new System.NotImplementedException();
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         throw new System.NotImplementedException();
     }

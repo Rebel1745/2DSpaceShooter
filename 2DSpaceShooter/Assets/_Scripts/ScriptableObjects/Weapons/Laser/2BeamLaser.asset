@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aed39af5c8f5f6e47980b5208f7a3db8, type: 3}
-  m_Name: BasicLaser
+  m_Name: 2BeamLaser
   m_EditorClassIdentifier: 
   WeaponPrefab: {fileID: 0}
   IsAutoAttack: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   Damage: 0.1
-  MaximumNumberOfLasers: 1
+  MaximumNumberOfLasers: 2
   LaserLength: 2
   CooldownBetweenEnemyChecks: 0.1
   LaserLineRendererPrefab: {fileID: 3148632841753285392, guid: 2e431ca5d1dec06449ed0cebd5ba512f, type: 3}
