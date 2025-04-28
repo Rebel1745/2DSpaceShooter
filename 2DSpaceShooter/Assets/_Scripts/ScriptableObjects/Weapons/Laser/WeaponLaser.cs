@@ -9,20 +9,22 @@ public class WeaponLaser : WeaponBase
     [Range(1, 5)] public int MaximumNumberOfLasers;
     public float LaserLength;
     public float CooldownBetweenEnemyChecks = 0.1f;
-    private float _timeOfLastEnemyCheck;
+    private float _timeOfNextEnemyCheck;
     private Collider2D[] _enemyColliders;
-    private Transform _closestEnemy;
+    private Collider2D _closestEnemy;
     private float _closestEnemyDistance;
     private LineRenderer[] _laserLines;
     public GameObject LaserLineRendererPrefab;
     private Transform _laserSpawnPoint;
     private Dictionary<Collider2D, float> _enemyDistances;
+    private float _damagePerTick;
 
     public override void LoadWeapon(Transform thisTransform, Transform[] spawnPoints)
     {
         base.LoadWeapon(thisTransform, spawnPoints);
 
         _laserSpawnPoint = _spawnPoints[_spawnPointDetails[0].SpawnPointIndex];
+        _enemyColliders = new Collider2D[0];
 
         // remove all previous line renderers
         _laserLines = thisTransform.GetComponentsInChildren<LineRenderer>();
@@ -41,6 +43,9 @@ public class WeaponLaser : WeaponBase
         }
 
         ClearLaserLines();
+
+        _timeOfNextEnemyCheck = CooldownBetweenEnemyChecks;
+        _damagePerTick = Damage / (1 / CooldownBetweenEnemyChecks);
 
         // the laser HAS to be auto attack
         IsAutoAttack = true;
@@ -74,12 +79,15 @@ public class WeaponLaser : WeaponBase
 
     public override void UpdateAttack()
     {
+        // the lasers should always be updated to keep a smoothly moving line between player and target(s)
+        UpdateLaserLines();
+
         // check to see if the cooldown period has passed for checking for enemies, otherwise bail
-        if (_timeOfLastEnemyCheck + CooldownBetweenEnemyChecks < Time.time) return;
+        if (Time.time < _timeOfNextEnemyCheck) return;
 
         // find all enemies around the player within the given laser length
         _enemyColliders = Physics2D.OverlapCircleAll(_laserSpawnPoint.position, LaserLength, WhatIsEnemy);
-        _timeOfLastEnemyCheck = Time.time;
+        _timeOfNextEnemyCheck = Time.time + CooldownBetweenEnemyChecks;
 
         // if there are no enemies, bail out here
         if (_enemyColliders.Length == 0)
@@ -113,23 +121,12 @@ public class WeaponLaser : WeaponBase
         // turn the dictionary into an array of enemies
         _enemyColliders = _enemyDistances.Keys.ToArray();
 
-        // configure the points on the line renderers to the enemies in the dictionary
+        // do damage to all the selected enemies
         for (int i = 0; i < _enemyColliders.Length; i++)
         {
             if (i < _laserLines.Length)
             {
-                Vector3[] positions = { _laserSpawnPoint.position, _enemyColliders[i].transform.position };
-                _laserLines[i].positionCount = 2;
-                _laserLines[i].SetPositions(positions);
                 DoDamage(_enemyColliders[i].gameObject);
-            }
-        }
-
-        if (_enemyColliders.Length < _laserLines.Length)
-        {
-            for (int i = _enemyColliders.Length; i < _laserLines.Length; i++)
-            {
-                ClearLaserLine(i);
             }
         }
     }
@@ -145,16 +142,16 @@ public class WeaponLaser : WeaponBase
             float dist = Vector3.Distance(_laserSpawnPoint.position, col.transform.position);
             if (dist < _closestEnemyDistance)
             {
-                _closestEnemy = col.transform;
+                _closestEnemy = col;
                 _closestEnemyDistance = dist;
             }
         }
 
-        // update the line renderer (maybe use something else in the future) to go from the weapon spawn point to the enemy
-        Vector3[] positions = { _laserSpawnPoint.position, _closestEnemy.position };
-        _laserLines[0].positionCount = 2;
-        _laserLines[0].SetPositions(positions);
-        DoDamage(_closestEnemy.gameObject);
+        _enemyColliders = new Collider2D[1];
+        _enemyColliders[0] = _closestEnemy;
+
+        // do damage to the targeted enemy
+        DoDamage(_enemyColliders[0].gameObject);
     }
 
     private void ClearLaserLines()
@@ -171,8 +168,36 @@ public class WeaponLaser : WeaponBase
         _laserLines[lineIndex].positionCount = 0;
     }
 
+    private void UpdateLaserLines()
+    {
+        for (int i = 0; i < _enemyColliders.Length; i++)
+        {
+            if (i < _laserLines.Length)
+            {
+                Vector3[] positions = { _laserSpawnPoint.position, _enemyColliders[i].transform.position };
+                _laserLines[i].positionCount = 2;
+                _laserLines[i].SetPositions(positions);
+                //DoDamage(_enemyColliders[i].gameObject);
+            }
+        }
+
+        if (_enemyColliders.Length < _laserLines.Length)
+        {
+            for (int i = _enemyColliders.Length; i < _laserLines.Length; i++)
+            {
+                ClearLaserLine(i);
+            }
+        }
+    }
+
     private void DoDamage(GameObject target)
     {
-        target.GetComponent<IDamageable>().TakeDamage(Damage * CooldownBetweenEnemyChecks);
+        IDamageable id = target.GetComponent<IDamageable>();
+
+        // if we are going to destroy an enemy, trigger an imidiate recheck of near enemies
+        if (id.GetCurrentHealth() - _damagePerTick <= 0f)
+            _timeOfNextEnemyCheck = 0f;
+
+        id.TakeDamage(_damagePerTick);
     }
 }

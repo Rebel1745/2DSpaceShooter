@@ -33,5 +33,11 @@ public class Player : MonoBehaviour, IDamageable, IDestroyable
         _currentHealth -= amount;
 
         if (_currentHealth <= 0) DestroyObject();
+
+    }
+
+    public float GetCurrentHealth()
+    {
+        return _currentHealth;
     }
 }

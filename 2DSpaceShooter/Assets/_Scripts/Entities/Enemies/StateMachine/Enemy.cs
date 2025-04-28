@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     protected float _timeOfNextAttack;
     public bool CanAttack { get; private set; }
     public Transform AttackSpawnPoint { get; private set; }
-    [SerializeField] protected float _startingHealth = 1;
+    [SerializeField] protected float _startingHealth = 1f;
     protected float _currentHealth;
 
     protected virtual void Awake()
@@ -52,6 +52,7 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
         _hasComeOnscreenYet = false;
         _hasPerformedFirstAttack = false;
         _splineAnimationFinished = false;
+        _currentHealth = _startingHealth;
     }
 
     #region Check Functions
@@ -110,6 +111,11 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     }
     #endregion
 
+    public float GetCurrentHealth()
+    {
+        return _currentHealth;
+    }
+
     #region Set Functions
     public void SetNextAttackTime()
     {
@@ -148,8 +154,7 @@ public class Enemy : MonoBehaviour, IEnemy, IDamageable, IDestroyable
     {
         _currentHealth -= amount;
 
-        if (_currentHealth <= 0f)
-            DestroyObject();
+        if (_currentHealth <= 0f) DestroyObject();
     }
 
     public virtual void DestroyObject()

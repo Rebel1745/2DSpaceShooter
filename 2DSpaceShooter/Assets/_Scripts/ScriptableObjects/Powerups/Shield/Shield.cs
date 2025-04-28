@@ -42,4 +42,9 @@ public class Shield : MonoBehaviour, IDamageable, IDestroyable
 
         else if (_currentHitAmount <= 0) DestroyObject();
     }
+
+    public float GetCurrentHealth()
+    {
+        return _currentHitAmount;
+    }
 }

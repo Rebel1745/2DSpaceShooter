@@ -20,7 +20,7 @@ MonoBehaviour:
   WhatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  Damage: 0.1
+  Damage: 1
   MaximumNumberOfLasers: 1
   LaserLength: 2
   CooldownBetweenEnemyChecks: 0.1
