@@ -196,7 +196,10 @@ public class WeaponLaser : WeaponBase
 
         // if we are going to destroy an enemy, trigger an imidiate recheck of near enemies
         if (id.GetCurrentHealth() - _damagePerTick <= 0f)
+        {
             _timeOfNextEnemyCheck = 0f;
+            _enemyColliders = new Collider2D[0];
+        }
 
         id.TakeDamage(_damagePerTick);
     }
