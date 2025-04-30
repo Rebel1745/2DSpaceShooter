@@ -1,26 +1,31 @@
 using System;
+using System.Data.Common;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerVerticalInputController : MonoBehaviour
 {
-    [SerializeField] Vector2 _axisBoundsX;
-    [SerializeField] Vector2 _axisBoundsY;
-    int _normInputX, _normInputY;
-    Vector2Int _moveInput;
-    [SerializeField] Vector2 _moveSpeed = new(8f, 5f);
-    [SerializeField] Transform[] _weaponSpawnPoints;
-    bool _fireMissile = false;
-    [SerializeField] WeaponBase _currentWeapon;
+    [SerializeField] private Vector2 _axisBoundsX;
+    [SerializeField] private Vector2 _axisBoundsY;
+    private int _normInputX, _normInputY;
+    private Vector2Int _moveInput;
+    [SerializeField] private Vector2 _moveSpeed = new(8f, 5f);
+    [SerializeField] private Transform[] _weaponSpawnPoints;
+    private bool _triggerAttack1 = false;
+    private bool _triggerAttack2 = false;
+    [SerializeField] private WeaponBase _currentPrimaryWeapon;
+    [SerializeField] private WeaponBase _currentSecondaryWeapon;
 
     private void Start()
     {
-        LoadWeapon(_currentWeapon);
+        LoadWeapon(_currentPrimaryWeapon);
+        LoadWeapon(_currentSecondaryWeapon);
     }
 
     private void LoadWeapon(WeaponBase weapon)
     {
-        weapon.LoadWeapon(transform, _weaponSpawnPoints);
+        if (weapon != null)
+            weapon.LoadWeapon(transform, _weaponSpawnPoints);
     }
 
     public void Movement(InputAction.CallbackContext context)
@@ -30,15 +35,27 @@ public class PlayerVerticalInputController : MonoBehaviour
         _moveInput = new Vector2Int(_normInputX, _normInputY);
     }
 
-    public void Missile(InputAction.CallbackContext context)
+    public void StartAttack1(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            _fireMissile = true;
+            _triggerAttack1 = true;
         }
         else if (context.canceled)
         {
-            _fireMissile = false;
+            _triggerAttack1 = false;
+        }
+    }
+
+    public void StartAttack2(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            _triggerAttack2 = true;
+        }
+        else if (context.canceled)
+        {
+            _triggerAttack2 = false;
         }
     }
 
@@ -50,13 +67,28 @@ public class PlayerVerticalInputController : MonoBehaviour
 
     private void DoAttacks()
     {
-        if (_currentWeapon.IsWeaponAttacking())
+        if (_currentPrimaryWeapon != null)
         {
-            _currentWeapon.UpdateAttack();
+            if (_currentPrimaryWeapon.IsWeaponAttacking())
+            {
+                _currentPrimaryWeapon.UpdateAttack();
+            }
+            else if ((_triggerAttack1 || _currentPrimaryWeapon.IsAutoAttack) && _currentPrimaryWeapon.CanAttackBeStarted())
+            {
+                _currentPrimaryWeapon.StartAttack();
+            }
         }
-        else if ((_fireMissile || _currentWeapon.IsAutoAttack) && _currentWeapon.CanAttackBeStarted())
+
+        if (_currentSecondaryWeapon != null)
         {
-            _currentWeapon.StartAttack();
+            if (_currentSecondaryWeapon.IsWeaponAttacking())
+            {
+                _currentSecondaryWeapon.UpdateAttack();
+            }
+            else if ((_triggerAttack2 || _currentSecondaryWeapon.IsAutoAttack) && _currentSecondaryWeapon.CanAttackBeStarted())
+            {
+                _currentSecondaryWeapon.StartAttack();
+            }
         }
     }
 

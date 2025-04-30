@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class Missile : Entity, IDestroyable
 {
-    //ProjectileSO _projectileData;
     WeaponProjectile _projectileData;
 
     protected override void Update()
@@ -41,8 +40,6 @@ public class Missile : Entity, IDestroyable
         if (_projectileData.DestructionParticles)
             ObjectPoolManager.SpawnObject(_projectileData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
-        // This is the function that should create an explosion and remove the missile from the pooled objects pool.
-        // for now it will just destroy the object
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
 
