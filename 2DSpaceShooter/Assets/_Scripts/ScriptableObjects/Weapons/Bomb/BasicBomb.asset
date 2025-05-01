@@ -21,8 +21,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   Damage: 10
-  CooldownBetweenFiring: 2
-  MaximumBombsOnscreen: 1
+  CooldownBetweenFiring: 1
   ProjectileSpeed: 2
   IsPlayerProjectile: 1
   DestructionParticles: {fileID: 100002, guid: cafecd3fc3b761c45bb1553f35cf5c96, type: 3}

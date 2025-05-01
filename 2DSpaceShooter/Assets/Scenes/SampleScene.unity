@@ -1384,7 +1384,7 @@ PrefabInstance:
     - target: {fileID: 7227599404987457461, guid: 06610e12adbec5949947dd606b7404dd, type: 3}
       propertyPath: _currentPrimaryWeapon
       value: 
-      objectReference: {fileID: 11400000, guid: 7ae0d65ce95699d4aadcbe01ae044d44, type: 2}
+      objectReference: {fileID: 11400000, guid: 52ecc14abd980e24f9a9fe193d34db53, type: 2}
     - target: {fileID: 7227599404987457461, guid: 06610e12adbec5949947dd606b7404dd, type: 3}
       propertyPath: _currentSecondaryWeapon
       value: 
