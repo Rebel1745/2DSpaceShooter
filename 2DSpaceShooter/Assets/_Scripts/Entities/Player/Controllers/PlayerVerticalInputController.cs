@@ -13,13 +13,37 @@ public class PlayerVerticalInputController : MonoBehaviour
     [SerializeField] private Transform[] _weaponSpawnPoints;
     private bool _triggerAttack1 = false;
     private bool _triggerAttack2 = false;
-    [SerializeField] private WeaponBase _currentPrimaryWeapon;
-    [SerializeField] private WeaponBase _currentSecondaryWeapon;
+    private WeaponBase _currentPrimaryWeapon;
+    private WeaponBase _currentSecondaryWeapon;
 
     private void Start()
     {
-        LoadWeapon(_currentPrimaryWeapon);
-        LoadWeapon(_currentSecondaryWeapon);
+        SetPrimaryWeapon(WeaponManager.Instance.CurrentPrimaryWeapon);
+        SetSecondaryWeapon(WeaponManager.Instance.CurrentSecondaryWeapon);
+    }
+
+    void OnEnable()
+    {
+        WeaponManager.Instance.OnPrimaryWeaponChanged.AddListener(SetPrimaryWeapon);
+        WeaponManager.Instance.OnsecondaryWeaponChanged.AddListener(SetSecondaryWeapon);
+    }
+
+    void OnDisable()
+    {
+        WeaponManager.Instance.OnPrimaryWeaponChanged.RemoveListener(SetPrimaryWeapon);
+        WeaponManager.Instance.OnsecondaryWeaponChanged.RemoveListener(SetSecondaryWeapon);
+    }
+
+    private void SetPrimaryWeapon(WeaponBase weapon)
+    {
+        _currentPrimaryWeapon = weapon;
+        _currentPrimaryWeapon.LoadWeapon(transform, _weaponSpawnPoints);
+    }
+
+    private void SetSecondaryWeapon(WeaponBase weapon)
+    {
+        _currentSecondaryWeapon = weapon;
+        _currentSecondaryWeapon.LoadWeapon(transform, _weaponSpawnPoints);
     }
 
     private void LoadWeapon(WeaponBase weapon)
