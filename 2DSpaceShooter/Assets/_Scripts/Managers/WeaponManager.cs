@@ -18,10 +18,6 @@ public class WeaponManager : MonoBehaviour
     private void Awake()
     {
         if (Instance == null) Instance = this;
-    }
-
-    private void Start()
-    {
         if (CurrentPrimaryWeapon == null) SwitchPrimaryWeapon(0);
 
         if (CurrentSecondaryWeapon == null) SwitchSecondaryWeapon(0);

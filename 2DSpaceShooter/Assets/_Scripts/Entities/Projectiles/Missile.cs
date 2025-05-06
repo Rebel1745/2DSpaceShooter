@@ -30,7 +30,9 @@ public class Missile : Entity, IDestroyable
         if (collision.transform.TryGetComponent<IDamageable>(out IDamageable obj))
         {
             obj.TakeDamage(_projectileData.Damage);
-            DestroyObject();
+
+            if (_projectileData.DestroyOnContact)
+                DestroyObject();
         }
     }
 

@@ -12,6 +12,7 @@ public class WeaponProjectile : WeaponBase
     public bool IsPlayerProjectile;
     public GameObject DestructionParticles;
     public float DestroyWhenOffscreenDistance = 0f;
+    public bool DestroyOnContact = true;
     private int _currentShotsFired = 0;
 
     public override bool CanAttackBeStarted()

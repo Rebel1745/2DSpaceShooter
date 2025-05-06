@@ -20,12 +20,21 @@ public class PlayerVerticalInputController : MonoBehaviour
     {
         SetPrimaryWeapon(WeaponManager.Instance.CurrentPrimaryWeapon);
         SetSecondaryWeapon(WeaponManager.Instance.CurrentSecondaryWeapon);
+
+        WeaponManager.Instance.OnPrimaryWeaponChanged.AddListener(SetPrimaryWeapon);
+        WeaponManager.Instance.OnsecondaryWeaponChanged.AddListener(SetSecondaryWeapon);
     }
 
     void OnEnable()
     {
-        WeaponManager.Instance.OnPrimaryWeaponChanged.AddListener(SetPrimaryWeapon);
-        WeaponManager.Instance.OnsecondaryWeaponChanged.AddListener(SetSecondaryWeapon);
+        if (WeaponManager.Instance)
+        {
+            WeaponManager.Instance.OnPrimaryWeaponChanged.RemoveListener(SetPrimaryWeapon);
+            WeaponManager.Instance.OnsecondaryWeaponChanged.RemoveListener(SetSecondaryWeapon);
+
+            WeaponManager.Instance.OnPrimaryWeaponChanged.AddListener(SetPrimaryWeapon);
+            WeaponManager.Instance.OnsecondaryWeaponChanged.AddListener(SetSecondaryWeapon);
+        }
     }
 
     void OnDisable()

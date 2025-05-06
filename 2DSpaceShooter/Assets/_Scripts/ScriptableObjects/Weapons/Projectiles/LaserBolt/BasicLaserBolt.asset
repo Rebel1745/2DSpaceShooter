@@ -10,26 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 623ad74e533c9f049884c73f73627771, type: 3}
-  m_Name: 3Shot3BurstMissile
+  m_Name: BasicLaserBolt
   m_EditorClassIdentifier: 
-  WeaponPrefab: {fileID: 7969325890968006580, guid: dbace330254c7e545aa4b626dbae8ec5, type: 3}
+  WeaponPrefab: {fileID: 7969325890968006580, guid: ae0b8c8dd0cf6444cb4d30c60ca7aef4, type: 3}
   IsAutoAttack: 0
   _spawnPointDetails:
   - SpawnPointIndex: 0
     SpawnPointAngle: 0
-  - SpawnPointIndex: 1
-    SpawnPointAngle: 0
-  - SpawnPointIndex: 2
-    SpawnPointAngle: 0
   WhatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
-  NumberOfShotsInBurst: 3
-  TimeBetweenBurstShots: 0.25
-  CooldownBetweenBursts: 1
-  ProjectileSpeed: 5
-  TimeUntilProjectileDestroyed: 2
   Damage: 1
+  NumberOfShotsInBurst: 1
+  TimeBetweenBurstShots: 0.25
+  CooldownBetweenBursts: 0.5
+  ProjectileSpeed: 4
+  TimeUntilProjectileDestroyed: 2
   IsPlayerProjectile: 1
   DestructionParticles: {fileID: 0}
-  DestroyWhenOffscreenDistance: 3
+  DestroyWhenOffscreenDistance: 2
+  DestroyOnContact: 0

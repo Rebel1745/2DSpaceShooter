@@ -22,12 +22,13 @@ MonoBehaviour:
   WhatIsEnemy:
     serializedVersion: 2
     m_Bits: 256
+  Damage: 1
   NumberOfShotsInBurst: 1
   TimeBetweenBurstShots: 0.25
   CooldownBetweenBursts: 0.5
   ProjectileSpeed: 5
   TimeUntilProjectileDestroyed: 2
-  Damage: 1
   IsPlayerProjectile: 1
   DestructionParticles: {fileID: 0}
   DestroyWhenOffscreenDistance: 0
+  DestroyOnContact: 1
