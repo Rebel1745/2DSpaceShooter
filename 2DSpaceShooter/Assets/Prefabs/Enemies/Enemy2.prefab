@@ -158,6 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd30b76db49ba447a7f56a2f7458698, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _weaponSpawnPoints:
+  - {fileID: 9194183627556634889}
+  _startingHealth: 1
 --- !u!1 &2184054738089319211
 GameObject:
   m_ObjectHideFlags: 0

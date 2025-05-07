@@ -20,7 +20,7 @@ MonoBehaviour:
   SplinePathToFollow: {fileID: 3182323889009148560, guid: 8171efc28f9950448b45ae006b0a73e4, type: 3}
   AlignEnemyInGridAfterSplinePathFollowed: 1
   CanAttack: 1
-  Projectile: {fileID: 11400000, guid: 2c9e6c34f6604334cb76be76e589df83, type: 2}
+  Projectile: {fileID: 0}
   TimeBeforeFirstAttack: 3
   TimeBetweenAttacks: 5
   RandomnessTimeForAttacks: 1

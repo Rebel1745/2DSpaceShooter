@@ -5,10 +5,12 @@ using UnityEngine.InputSystem;
 
 public class PlayerVerticalInputController : MonoBehaviour
 {
+    [SerializeField] PlayerInput pI;
     [SerializeField] private Vector2 _axisBoundsX;
     [SerializeField] private Vector2 _axisBoundsY;
+    private float _inputX, _inputY;
     private int _normInputX, _normInputY;
-    private Vector2Int _moveInput;
+    private Vector2 _moveInput;
     [SerializeField] private Vector2 _moveSpeed = new(8f, 5f);
     [SerializeField] private Transform[] _weaponSpawnPoints;
     private bool _triggerAttack1 = false;
@@ -63,9 +65,15 @@ public class PlayerVerticalInputController : MonoBehaviour
 
     public void Movement(InputAction.CallbackContext context)
     {
+        _inputX = (context.ReadValue<Vector2>() * Vector2.right).x;
+        _inputY = (context.ReadValue<Vector2>() * Vector2.up).y;
         _normInputX = (int)(context.ReadValue<Vector2>() * Vector2.right).normalized.x;
         _normInputY = (int)(context.ReadValue<Vector2>() * Vector2.up).normalized.y;
-        _moveInput = new Vector2Int(_normInputX, _normInputY);
+
+        if (pI.currentControlScheme == "Gamepad")
+            _moveInput = new Vector2(_inputX, _inputY);
+        else
+            _moveInput = new Vector2(_normInputX, _normInputY);
     }
 
     public void StartAttack1(InputAction.CallbackContext context)

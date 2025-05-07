@@ -650,12 +650,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _waves:
-  - {fileID: 11400000, guid: a920995273987414eb3e1281e338c0be, type: 2}
   - {fileID: 11400000, guid: ea7a6953e56522649a27aaec0f71e977, type: 2}
+  - {fileID: 11400000, guid: a920995273987414eb3e1281e338c0be, type: 2}
   - {fileID: 11400000, guid: ea7a6953e56522649a27aaec0f71e977, type: 2}
   _waveSpawnPointYOffset: 2
   _enemyGridXBounds: 2
   _enemyGridYBounds: 1
+--- !u!114 &1507365727 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7175152995264106579, guid: 06610e12adbec5949947dd606b7404dd, type: 3}
+  m_PrefabInstance: {fileID: 5988821737058913703}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1543920364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1398,6 +1409,10 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 316027572}
+    - target: {fileID: 7227599404987457461, guid: 06610e12adbec5949947dd606b7404dd, type: 3}
+      propertyPath: pI
+      value: 
+      objectReference: {fileID: 1507365727}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
