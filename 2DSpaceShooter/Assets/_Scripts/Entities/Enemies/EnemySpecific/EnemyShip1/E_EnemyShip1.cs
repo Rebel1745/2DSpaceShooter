@@ -6,6 +6,8 @@ public class E_EnemyShip1 : Enemy
     public E_EnemyShip1_MoveState MoveState { get; private set; }
     public E_EnemyShip1_AttackState AttackState { get; private set; }
 
+    [SerializeField] public WeaponProjectile _projectile;
+
     public override void InitialiseStates()
     {
         base.InitialiseStates();

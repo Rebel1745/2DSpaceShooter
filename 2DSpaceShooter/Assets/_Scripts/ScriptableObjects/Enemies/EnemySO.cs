@@ -11,7 +11,6 @@ public class EnemySO : ScriptableObject
     public GameObject SplinePathToFollow;
     public bool AlignEnemyInGridAfterSplinePathFollowed;
     public bool CanAttack = true;
-    public ProjectileSO Projectile;
     public float TimeBeforeFirstAttack;
     public float TimeBetweenAttacks;
     public float RandomnessTimeForAttacks;

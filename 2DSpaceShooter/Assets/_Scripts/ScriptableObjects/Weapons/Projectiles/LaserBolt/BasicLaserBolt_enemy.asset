@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 623ad74e533c9f049884c73f73627771, type: 3}
+  m_Name: BasicLaserBolt_enemy
+  m_EditorClassIdentifier: 
+  WeaponPrefab: {fileID: 7969325890968006580, guid: ae0b8c8dd0cf6444cb4d30c60ca7aef4, type: 3}
+  IsAutoAttack: 0
+  _spawnPointDetails:
+  - SpawnPointIndex: 0
+    SpawnPointAngle: 0
+  WhatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 256
+  Damage: 1
+  NumberOfShotsInBurst: 1
+  TimeBetweenBurstShots: 0.25
+  CooldownBetweenBursts: 0.5
+  ProjectileSpeed: 4
+  TimeUntilProjectileDestroyed: 2
+  IsPlayerProjectile: 0
+  DestructionParticles: {fileID: 0}
+  DestroyWhenOffscreenDistance: 2
+  DestroyOnContact: 0

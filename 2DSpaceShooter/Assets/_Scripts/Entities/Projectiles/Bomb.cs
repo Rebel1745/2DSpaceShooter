@@ -5,6 +5,7 @@ public class Bomb : Entity, IDestroyable
     private WeaponBomb _bombData;
     private float _bombSpawnTime;
     private Collider2D[] _enemyColliders;
+    private float _bombSpeed;
 
     protected override void Update()
     {
@@ -15,12 +16,14 @@ public class Bomb : Entity, IDestroyable
             if (_bombData.DestroyWhenOffscreenDistance != 0f && CheckIfOffscreenByAmount(_bombData.DestroyWhenOffscreenDistance))
                 QuietDestroy();
         }
+
+        transform.Translate(0f, _bombSpeed * Time.deltaTime, 0f);
     }
 
     public void SetupBomb(WeaponBomb bombData)
     {
         _bombData = bombData;
-        GetComponent<MoveForward>().SetSpeed(_bombData.ProjectileSpeed);
+        _bombSpeed = _bombData.ProjectileSpeed;
         gameObject.layer = _bombData.IsPlayerProjectile ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("EnemyProjectile");
         _bombSpawnTime = Time.time;
     }

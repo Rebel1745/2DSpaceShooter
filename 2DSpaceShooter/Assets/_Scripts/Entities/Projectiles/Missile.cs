@@ -2,7 +2,11 @@ using UnityEngine;
 
 public class Missile : Entity, IDestroyable
 {
-    WeaponProjectile _projectileData;
+    private float _destroyWhenOffscreenDistance = 0f;
+    private float _projectileSpeed;
+    private float _damage;
+    private bool _destroyOnContact = true;
+    private GameObject _destructionParticles;
 
     protected override void Update()
     {
@@ -10,16 +14,21 @@ public class Missile : Entity, IDestroyable
 
         if (HasComeOnscreenYet)
         {
-            if (_projectileData.DestroyWhenOffscreenDistance != 0f && CheckIfOffscreenByAmount(_projectileData.DestroyWhenOffscreenDistance))
+            if (_destroyWhenOffscreenDistance != 0f && CheckIfOffscreenByAmount(_destroyWhenOffscreenDistance))
                 QuietDestroy();
         }
+
+        transform.Translate(0f, _projectileSpeed * Time.deltaTime, 0f);
     }
 
     public void SetupMissile(WeaponProjectile projectile)
     {
-        _projectileData = projectile;
-        GetComponent<MoveForward>().SetSpeed(_projectileData.ProjectileSpeed);
-        gameObject.layer = _projectileData.IsPlayerProjectile ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("EnemyProjectile");
+        _destroyWhenOffscreenDistance = projectile.DestroyWhenOffscreenDistance;
+        _projectileSpeed = projectile.ProjectileSpeed;
+        gameObject.layer = projectile.IsPlayerProjectile ? LayerMask.NameToLayer("PlayerProjectile") : LayerMask.NameToLayer("EnemyProjectile");
+        _damage = projectile.Damage;
+        _destroyOnContact = projectile.DestroyOnContact;
+        _destructionParticles = projectile.DestructionParticles;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -29,17 +38,17 @@ public class Missile : Entity, IDestroyable
 
         if (collision.transform.TryGetComponent<IDamageable>(out IDamageable obj))
         {
-            obj.TakeDamage(_projectileData.Damage);
+            obj.TakeDamage(_damage);
 
-            if (_projectileData.DestroyOnContact)
+            if (_destroyOnContact)
                 DestroyObject();
         }
     }
 
     public void DestroyObject()
     {
-        if (_projectileData.DestructionParticles)
-            ObjectPoolManager.SpawnObject(_projectileData.DestructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
+        if (_destructionParticles)
+            ObjectPoolManager.SpawnObject(_destructionParticles, transform.position, Quaternion.identity, ObjectPoolManager.POOL_TYPE.ParticleSystem);
 
         ObjectPoolManager.ReturnObjectToPool(gameObject);
     }
